@@ -1,0 +1,288 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>dubbo | Huang Blog</title><meta name="author" content="Huang RD"><meta name="copyright" content="Huang RD"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="ffffff"><meta name="description" content="Dubbo一、分布式系统1、大型互联网项目架构目标传统项目和互联网项目传统项目：OA（请假）、 HR、CRM 等。 互联网项目：天猫、京东、微信、百度等。 互联网项目特点：  用户多 流量大，并发高 海量数据 易受攻击 功能繁琐 变更快  互联网项目需要对用户体验进行完善，做到 美观、功能、速度、稳定性。 衡量网站性能的指标响应时间：指执行一个请求从开始到最后收到响应数据所花费的总体时间。 并发数">
+<meta property="og:type" content="article">
+<meta property="og:title" content="dubbo">
+<meta property="og:url" content="http://www.haungrd.top/2022/12/15/dubbo/index.html">
+<meta property="og:site_name" content="Huang Blog">
+<meta property="og:description" content="Dubbo一、分布式系统1、大型互联网项目架构目标传统项目和互联网项目传统项目：OA（请假）、 HR、CRM 等。 互联网项目：天猫、京东、微信、百度等。 互联网项目特点：  用户多 流量大，并发高 海量数据 易受攻击 功能繁琐 变更快  互联网项目需要对用户体验进行完善，做到 美观、功能、速度、稳定性。 衡量网站性能的指标响应时间：指执行一个请求从开始到最后收到响应数据所花费的总体时间。 并发数">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://www.huangrd.top/images/agentina/6.jpg">
+<meta property="article:published_time" content="2022-12-15T04:12:57.000Z">
+<meta property="article:modified_time" content="2022-12-15T13:17:23.972Z">
+<meta property="article:author" content="Huang RD">
+<meta property="article:tag" content="框架">
+<meta property="article:tag" content="分布式">
+<meta property="article:tag" content="dubbo">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://www.huangrd.top/images/agentina/6.jpg"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://www.haungrd.top/2022/12/15/dubbo/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"��","msgToSimplifiedChinese":"简"},
+  noticeOutdate: {"limitDay":365,"position":"top","messagePrev":"It has been","messageNext":"days since the last update, the content of the article may be outdated."},
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":230},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: true,
+    post: true
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: {"chs_to_cht":"你已切换为繁体","cht_to_chs":"你已切换为简体","day_to_night":"你已切换为深色模式","night_to_day":"你已切换为浅色模式","bgLight":"#49b1f5","bgDark":"#1f1f1f","position":"top-right"},
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: true,
+  isAnchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'dubbo',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2022-12-15 21:17:23'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', 'ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          const now = new Date()
+          const hour = now.getHours()
+          const isNight = hour <= 6 || hour >= 18
+          if (t === undefined) isNight ? activateDarkMode() : activateLightMode()
+          else if (t === 'light') activateLightMode()
+          else activateDarkMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 6.3.0"></head><body><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://getwallpapers.com/wallpaper/full/a/1/8/1057222-free-download-cool-nature-backgrounds-1920x1200-windows-10.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">23</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">28</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">5</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> ���类</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fa fa-heartbeat"></i><span> 清���</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> �����</span></a></li><li><a class="site-page child" href="/Gallery/"><i class="fa-fw fas fa-images"></i><span> 照片</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> ���链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关��</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://www.huangrd.top/images/agentina/6.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Huang Blog</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> ���类</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fa fa-heartbeat"></i><span> 清���</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> �����</span></a></li><li><a class="site-page child" href="/Gallery/"><i class="fa-fw fas fa-images"></i><span> 照片</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> ���链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关��</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">dubbo</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2022-12-15T04:12:57.000Z" title="发表于 2022-12-15 12:12:57">2022-12-15</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2022-12-15T13:17:23.972Z" title="更新于 2022-12-15 21:17:23">2022-12-15</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/JAVA/">JAVA</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">1.6k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>4分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="dubbo"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="Dubbo"><a href="#Dubbo" class="headerlink" title="Dubbo"></a>Dubbo</h1><h2 id="一、分布式系统"><a href="#一、分布式系统" class="headerlink" title="一、分布式系统"></a>一、分布式系统</h2><h3 id="1、大型互联网项目架构目标"><a href="#1、大型互联网项目架构目标" class="headerlink" title="1、大型互联网项目架构目标"></a>1、大型互联网项目架构目标</h3><h4 id="传统项目和互联网项目"><a href="#传统项目和互联网项目" class="headerlink" title="传统项目和互联网项目"></a>传统项目和互联网项目</h4><p>传统项目：OA（请假）、 HR、CRM 等。</p>
+<p>互联网项目：天猫、京东、微信、百度等。</p>
+<p>互联网项目特点：</p>
+<ul>
+<li><strong>用户多</strong></li>
+<li><strong>流量大，并发高</strong></li>
+<li><strong>海量数据</strong></li>
+<li>易受攻击</li>
+<li>功能繁琐</li>
+<li>变更快</li>
+</ul>
+<p>互联网项目需要对用户体验进行完善，做到 美观、功能、速度、稳定性。</p>
+<h4 id="衡量网站性能的指标"><a href="#衡量网站性能的指标" class="headerlink" title="衡量网站性能的指标"></a>衡量网站性能的指标</h4><p>响应时间：指执行一个请求从开始到最后收到响应数据所花费的总体时间。</p>
+<p>并发数：指系统同时能处理的请求数量。</p>
+<ul>
+<li>并发连接数：指的是客户端向服务器发起请求，并建立了 TCP 连接。每秒钟服务器连接的总 TCP 数量</li>
+<li>请求数：也称为 QPS(Query Per Second) 指每秒多少请求.</li>
+<li>并发用户数：单位时间内有多少用户</li>
+</ul>
+<p>吞吐量：指单位时间内系统能处理的请求数量。</p>
+<ul>
+<li>QPS ：Query Per Second 每秒查询数。 </li>
+<li>TPS ：Transactions Per Second 每秒事务数。 </li>
+<li>一个事务是指一个客户机向服务器发送请求然后服务器做出反应的过程。客户机在发送请求时开始计时，收到服务器响应后结束计时，以此来计算使用的时间和完成的事务个数。</li>
+<li>一个页面的一次访问，只会形成一个TPS；但一次页面请求，可能产生多次对服务器的请求，就会有多个QPS</li>
+<li>一个连接建立后可以处理一个请求、也可以保持连接处理多个请求后再断开。</li>
+</ul>
+<p><code>QPS &gt;= 并发连接数 &gt;= TPS</code></p>
+<h4 id="大型互联网项目架构目标"><a href="#大型互联网项目架构目标" class="headerlink" title="大型互联网项目架构目标"></a>大型互联网项目架构目标</h4><p><strong>高性能</strong>：提供快速的访问体验。</p>
+<p><strong>高可用</strong>：网站服务一直可以正常访问。</p>
+<p><strong>可伸缩</strong>：通过硬件增加&#x2F;减少，提高&#x2F;降低处理能力。</p>
+<p><strong>高可扩展</strong>：系统间耦合低，方便的通过新增&#x2F;移除方式，增加&#x2F;减少新的功能&#x2F;模块。 </p>
+<p><strong>安全性</strong>：提供网站安全访问和数据加密，安全存储等策略。</p>
+<p><strong>敏捷性</strong>：随需应变，快速响应。</p>
+<h3 id="2、集群和分布式"><a href="#2、集群和分布式" class="headerlink" title="2、集群和分布式"></a>2、集群和分布式</h3><p>简单来讲：</p>
+<ul>
+<li>集群：很多“人”一起 ，干一样的事。 </li>
+<li>分布式：很多“人”一起，干不一样的事。这些不一样的事，合起来是一件大事。</li>
+</ul>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/../images/dubbo/image-20221215155908631.png" alt="image-20221215155908631"></p>
+<p>集群可以满足：高性能、高可用</p>
+<p>分布式可以满足：可伸缩、高可扩展</p>
+<p>传统项目：</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/../images/dubbo/image-20221215160058449.png" alt="image-20221215160058449"></p>
+<p>集群：</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/../images/dubbo/image-20221215160200381.png" alt="image-20221215160200381"></p>
+<p>集群和分布式：</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/../images/dubbo/image-20221215160225896.png" alt="image-20221215160225896"></p>
+<p>专业来讲：</p>
+<p><strong>集群</strong>：一个业务模块，部署在多台服务器上。 </p>
+<p><strong>分布式</strong>：一个大的业务系统，拆分为小的业务模块，分别部署在不同的机器上。 </p>
+<h3 id="3、架构演进"><a href="#3、架构演进" class="headerlink" title="3、架构演进"></a>3、架构演进</h3><p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/../images/dubbo/image-20221215170941535.png" alt="image-20221215170941535"></p>
+<h4 id="单体架构："><a href="#单体架构：" class="headerlink" title="单体架构："></a>单体架构：</h4><p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/../images/dubbo/image-20221215171003683.png" alt="image-20221215171003683"></p>
+<p>优点：</p>
+<ul>
+<li>简单：开发部署都很方便，小型项目首选</li>
+</ul>
+<p>缺点：</p>
+<ul>
+<li>项目启动慢</li>
+<li>可靠性差</li>
+<li>可伸缩性差</li>
+<li>扩展性和可维护性差</li>
+<li>性能低</li>
+</ul>
+<h4 id="垂直架构："><a href="#垂直架构：" class="headerlink" title="垂直架构："></a>垂直架构：</h4><p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/../images/dubbo/image-20221215171103899.png" alt="image-20221215171103899"></p>
+<p>垂直架构是指将单体架构中的多个模块拆分为多个独立的项目。形成多个独立的单体架构。</p>
+<p>垂直架构解决了单体架构存在的问题：</p>
+<ul>
+<li>项目启动慢</li>
+<li>可靠性差</li>
+<li>可伸缩性差</li>
+<li>扩展性和可维护性差</li>
+<li>性能低</li>
+</ul>
+<p>垂直架构存在的问题：</p>
+<ul>
+<li>重复功能太多</li>
+</ul>
+<h4 id="分布式架构："><a href="#分布式架构：" class="headerlink" title="分布式架构："></a>分布式架构：</h4><p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/../images/dubbo/image-20221215171255349.png" alt="image-20221215171255349"></p>
+<p>分布式架构是指在垂直架构的基础上，将公共业务模块抽取出来，作为独立的服务，供其他调用者消费，以实现服务的共享和重用。</p>
+<p>RPC： Remote Procedure Call 远程过程调用。有非常多的协议和技术来都实现了RPC的过程。比如：HTTP REST风格，Java RMI规范、WebService SOAP协议、Hession等等。</p>
+<p>分布式架构解决了垂直架构存在的问题：</p>
+<ul>
+<li>重复功能太多</li>
+</ul>
+<p>分布式架构存在的问题：</p>
+<ul>
+<li>服务提供方一旦产生变更，所有消费方都需要变更。</li>
+</ul>
+<h4 id="SOA-架构："><a href="#SOA-架构：" class="headerlink" title="SOA 架构："></a>SOA 架构：</h4><p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/../images/dubbo/image-20221215171451799.png" alt="image-20221215171451799"></p>
+<p>SOA：（Service-Oriented Architecture，面向服务的架构）是一个组件模型，它将应用程序的不同功能单元（称为服务）进行拆分，并通过这些服务之间定义良好的接口和契约联系起来。</p>
+<p>ESB：(Enterparise Service Bus) 企业服务总线，服务中介。主要是提供了一个服务于服务之间的交互。ESB 包含的功能如：负载均衡，流量控制，加密处理，服务的监控，异常处理，监控告急等等。</p>
+<p>SOA 架构解决了分布式架构存在的问题：<br>服务提供方一旦产生变更，所有消费方都需要变更。</p>
+<h4 id="微服务架构："><a href="#微服务架构：" class="headerlink" title="微服务架构："></a>微服务架构：</h4><p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/../images/dubbo/image-20221215171640513.png" alt="image-20221215171640513"></p>
+<p>微服务架构是在 SOA 上做的升华，微服务架构强调的一个重点是“业务需要彻底的组件化和服务化”，原有的单个业务系统会拆分为多个可以独立开发、设计、运行的小应用。这些小应用之间通过服务完成交互和集成。</p>
+<p>微服务架构 &#x3D; 80%的SOA服务架构思想 + 100%的组件化架构思想 + 80%的领域建模思想</p>
+<p>微服务架构的特点：</p>
+<ul>
+<li>服务实现组件化：开发者可以自由选择开发技术。也不需要协调其他团队</li>
+<li>服务之间交互一般使用REST API</li>
+<li>去中心化：每个微服务有自己私有的数据库持久化业务数据</li>
+<li>自动化部署：把应用拆分成为一个一个独立的单个服务，方便自动化部署、测试、运维</li>
+</ul>
+<p>Dubbo 是 SOA时代的产物，SpringCloud 是微服务时代的产物。</p>
+<h2 id="二、Dubbo-概述"><a href="#二、Dubbo-概述" class="headerlink" title="二、Dubbo 概述"></a>二、Dubbo 概述</h2><h3 id="1、Dubbo-概念"><a href="#1、Dubbo-概念" class="headerlink" title="1、Dubbo 概念"></a>1、Dubbo 概念</h3><p>Dubbo是阿里巴巴公司开源的一个高性能、轻量级的 Java RPC 框架。</p>
+<p>致力于提供高性能和透明化的 RPC 远程服务调用方案，以及 SOA 服务治理方案。</p>
+<p>官网：<a target="_blank" rel="noopener" href="http://dubbo.apache.org/">http://dubbo.apache.org</a></p>
+<h3 id="2、Dubbo-架构"><a href="#2、Dubbo-架构" class="headerlink" title="2、Dubbo 架构"></a>2、Dubbo 架构</h3><p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/../images/dubbo/dubbo-architecture.jpg" alt="dubbo-architucture"></p>
+<p>节点角色说明：</p>
+<ul>
+<li>Provider：暴露服务的服务提供方</li>
+<li>Container：服务运行容器</li>
+<li>Consumer：调用远程服务的服务消费方</li>
+<li>Registry：服务注册与发现的注册中心</li>
+<li>Monitor：统计服务的调用次数和调用时间的监控中心</li>
+</ul>
+<p>async 异步</p>
+<p>sync 同步</p>
+<h2 id="三、Dubbo-快速入门"><a href="#三、Dubbo-快速入门" class="headerlink" title="三、Dubbo 快速入门"></a>三、Dubbo 快速入门</h2><h2 id="四、Dubbo-高级特性"><a href="#四、Dubbo-高级特性" class="headerlink" title="四、Dubbo 高级特性"></a>四、Dubbo 高级特性</h2></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="http://www.haungrd.top">Huang RD</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://www.haungrd.top/2022/12/15/dubbo/">http://www.haungrd.top/2022/12/15/dubbo/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://www.haungrd.top" target="_blank">Huang Blog</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E6%A1%86%E6%9E%B6/">框架</a><a class="post-meta__tags" href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F/">分布式</a><a class="post-meta__tags" href="/tags/dubbo/">dubbo</a></div><div class="post_share"><div class="social-share" data-image="https://www.huangrd.top/images/agentina/6.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2022/12/16/SpringCloud01/"><img class="prev-cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://www.huangrd.top/images/agentina/8.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">Spring Cloud 第一天</div></div></a></div><div class="next-post pull-right"><a href="/2022/12/15/dubbo-admin%E5%AE%89%E8%A3%85/"><img class="next-cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://www.huangrd.top/images/agentina/2.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">dubbo 安装</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2022/12/15/dubbo-admin%E5%AE%89%E8%A3%85/" title="dubbo 安装"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://www.huangrd.top/images/agentina/2.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-12-15</div><div class="title">dubbo 安装</div></div></a></div><div><a href="/2022/12/15/Zookeeper%E5%AE%89%E8%A3%85/" title="Zookeeper安装"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://www.huangrd.top/images/agentina/10.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-12-15</div><div class="title">Zookeeper安装</div></div></a></div><div><a href="/2022/11/22/Netty02-%E5%85%A5%E9%97%A8/" title="Netty入门"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://www.huangrd.top/images/agentina/2.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-11-22</div><div class="title">Netty入门</div></div></a></div><div><a href="/2022/11/22/Netty01-nio/" title="NIO基础"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://www.huangrd.top/images/agentina/13.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-11-22</div><div class="title">NIO基础</div></div></a></div><div><a href="/2022/12/16/SpringCloud01/" title="Spring Cloud 第一天"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://www.huangrd.top/images/agentina/8.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-12-16</div><div class="title">Spring Cloud 第一天</div></div></a></div><div><a href="/2022/12/21/SpringCloud02/" title="Spring Cloud 第二天"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://www.huangrd.top/images/agentina/12.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-12-21</div><div class="title">Spring Cloud 第二天</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://getwallpapers.com/wallpaper/full/a/1/8/1057222-free-download-cool-nature-backgrounds-1920x1200-windows-10.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Huang RD</div><div class="author-info__description">Huang Rui Dong Blog</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">23</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">28</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">5</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/A-JAVAer-HRD"><i class="fab fa-github"></i><span>了解���..</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/A-JAVAer-HRD" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:huangruidong.xauat@gmail.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">欢�����������������客��</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Dubbo"><span class="toc-text">Dubbo</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E5%88%86%E5%B8%83%E5%BC%8F%E7%B3%BB%E7%BB%9F"><span class="toc-text">一、分布式系统</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1%E3%80%81%E5%A4%A7%E5%9E%8B%E4%BA%92%E8%81%94%E7%BD%91%E9%A1%B9%E7%9B%AE%E6%9E%B6%E6%9E%84%E7%9B%AE%E6%A0%87"><span class="toc-text">1、大型互联网项目架构目标</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BC%A0%E7%BB%9F%E9%A1%B9%E7%9B%AE%E5%92%8C%E4%BA%92%E8%81%94%E7%BD%91%E9%A1%B9%E7%9B%AE"><span class="toc-text">传统项目和互联网项目</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%A1%A1%E9%87%8F%E7%BD%91%E7%AB%99%E6%80%A7%E8%83%BD%E7%9A%84%E6%8C%87%E6%A0%87"><span class="toc-text">衡量网站性能的指标</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%A4%A7%E5%9E%8B%E4%BA%92%E8%81%94%E7%BD%91%E9%A1%B9%E7%9B%AE%E6%9E%B6%E6%9E%84%E7%9B%AE%E6%A0%87"><span class="toc-text">大型互联网项目架构目标</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2%E3%80%81%E9%9B%86%E7%BE%A4%E5%92%8C%E5%88%86%E5%B8%83%E5%BC%8F"><span class="toc-text">2、集群和分布式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3%E3%80%81%E6%9E%B6%E6%9E%84%E6%BC%94%E8%BF%9B"><span class="toc-text">3、架构演进</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8D%95%E4%BD%93%E6%9E%B6%E6%9E%84%EF%BC%9A"><span class="toc-text">单体架构：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%9E%82%E7%9B%B4%E6%9E%B6%E6%9E%84%EF%BC%9A"><span class="toc-text">垂直架构：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%86%E5%B8%83%E5%BC%8F%E6%9E%B6%E6%9E%84%EF%BC%9A"><span class="toc-text">分布式架构：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#SOA-%E6%9E%B6%E6%9E%84%EF%BC%9A"><span class="toc-text">SOA 架构：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%9E%B6%E6%9E%84%EF%BC%9A"><span class="toc-text">微服务架构：</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E3%80%81Dubbo-%E6%A6%82%E8%BF%B0"><span class="toc-text">二、Dubbo 概述</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1%E3%80%81Dubbo-%E6%A6%82%E5%BF%B5"><span class="toc-text">1、Dubbo 概念</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2%E3%80%81Dubbo-%E6%9E%B6%E6%9E%84"><span class="toc-text">2、Dubbo 架构</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89%E3%80%81Dubbo-%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8"><span class="toc-text">三、Dubbo 快速入门</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%9B%E3%80%81Dubbo-%E9%AB%98%E7%BA%A7%E7%89%B9%E6%80%A7"><span class="toc-text">四、Dubbo 高级特性</span></a></li></ol></li></ol></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2022 By Huang RD</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="translateLink" type="button" title="简繁转换">简</button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div></div></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page/instantpage.min.js" type="module"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload/dist/lazyload.iife.min.js"></script><script src="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.js"></script><script>function panguFn () {
+  if (typeof pangu === 'object') pangu.autoSpacingPage()
+  else {
+    getScript('https://cdn.jsdelivr.net/npm/pangu/dist/browser/pangu.min.js')
+      .then(() => {
+        pangu.autoSpacingPage()
+      })
+  }
+}
+
+function panguInit () {
+  if (false){
+    GLOBAL_CONFIG_SITE.isPost && panguFn()
+  } else {
+    panguFn()
+  }
+}
+
+document.addEventListener('DOMContentLoaded', panguInit)</script><script src="/js/search/local-search.js"></script><div class="js-pjax"></div><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="30" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/canvas-nest.min.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
