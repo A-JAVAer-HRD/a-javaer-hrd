@@ -1,0 +1,519 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>计算机网络-技术篇 | Huang Blog</title><meta name="author" content="Huang RD"><meta name="copyright" content="Huang RD"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="ffffff"><meta name="description" content="计算机网络名词网络号：负责标识该 IP 地址是属于哪个「子网」的。 主机号：负责标识同一「子网」下的不同主机。 MSS(Maximum Segment Size)：最大报文长度，TCP协议定义的一个选项，MSS是TCP用来限制应用层最大的发送字数。 MTU（Maximum Transmission Unit）：最大传输单元，是数据链路层的概念，大小为1500字节。表示可以传输的最大数据包（数据块+">
+<meta property="og:type" content="article">
+<meta property="og:title" content="计算机网络-技术篇">
+<meta property="og:url" content="http://www.haungrd.top/2022/12/28/%E8%AE%A1%E7%BD%91-%E9%9D%A2%E8%AF%95/index.html">
+<meta property="og:site_name" content="Huang Blog">
+<meta property="og:description" content="计算机网络名词网络号：负责标识该 IP 地址是属于哪个「子网」的。 主机号：负责标识同一「子网」下的不同主机。 MSS(Maximum Segment Size)：最大报文长度，TCP协议定义的一个选项，MSS是TCP用来限制应用层最大的发送字数。 MTU（Maximum Transmission Unit）：最大传输单元，是数据链路层的概念，大小为1500字节。表示可以传输的最大数据包（数据块+">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://www.huangrd.top/images/agentina/13.jpg">
+<meta property="article:published_time" content="2022-12-28T14:12:57.000Z">
+<meta property="article:modified_time" content="2022-12-28T14:34:56.944Z">
+<meta property="article:author" content="Huang RD">
+<meta property="article:tag" content="计算机网络">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://www.huangrd.top/images/agentina/13.jpg"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://www.haungrd.top/2022/12/28/%E8%AE%A1%E7%BD%91-%E9%9D%A2%E8%AF%95/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"��","msgToSimplifiedChinese":"简"},
+  noticeOutdate: {"limitDay":365,"position":"top","messagePrev":"It has been","messageNext":"days since the last update, the content of the article may be outdated."},
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":230},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: true,
+    post: true
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: {"chs_to_cht":"你已切换为繁体","cht_to_chs":"你已切换为简体","day_to_night":"你已切换为深色模式","night_to_day":"你已切换为浅色模式","bgLight":"#49b1f5","bgDark":"#1f1f1f","position":"top-right"},
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: true,
+  isAnchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '计算机网络-技术篇',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2022-12-28 22:34:56'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', 'ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          const now = new Date()
+          const hour = now.getHours()
+          const isNight = hour <= 6 || hour >= 18
+          if (t === undefined) isNight ? activateDarkMode() : activateLightMode()
+          else if (t === 'light') activateLightMode()
+          else activateDarkMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 6.3.0"></head><body><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://getwallpapers.com/wallpaper/full/a/1/8/1057222-free-download-cool-nature-backgrounds-1920x1200-windows-10.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">26</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">28</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">5</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> ���类</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fa fa-heartbeat"></i><span> 清���</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> �����</span></a></li><li><a class="site-page child" href="/Gallery/"><i class="fa-fw fas fa-images"></i><span> 照片</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> ���链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关��</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://www.huangrd.top/images/agentina/13.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Huang Blog</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> ���类</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fa fa-heartbeat"></i><span> 清���</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> �����</span></a></li><li><a class="site-page child" href="/Gallery/"><i class="fa-fw fas fa-images"></i><span> 照片</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> ���链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关��</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">计算机网络-技术篇</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2022-12-28T14:12:57.000Z" title="发表于 2022-12-28 22:12:57">2022-12-28</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2022-12-28T14:34:56.944Z" title="更新于 2022-12-28 22:34:56">2022-12-28</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/">计算机基础</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">6k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>19分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="计算机网络-技术篇"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="计算机网络"><a href="#计算机网络" class="headerlink" title="计算机网络"></a>计算机网络</h1><h2 id="名词"><a href="#名词" class="headerlink" title="名词"></a>名词</h2><p><strong>网络号</strong>：负责标识该 IP 地址是属于哪个「子网」的。</p>
+<p><strong>主机号</strong>：负责标识同一「子网」下的不同主机。</p>
+<p><strong>MSS</strong>(Maximum Segment Size)：最大报文长度，TCP协议定义的一个选项，MSS是TCP用来限制<strong>应用层</strong>最大的发送字数。</p>
+<p><strong>MTU</strong>（Maximum Transmission Unit）：最大传输单元，是<strong>数据链路层</strong>的概念，大小为1500字节。表示可以传输的最大数据包（数据块+TCP头+IP头，不包含帧首部和尾部）。当网络包超过 MTU 的大小，就会在网络层分片，以确保分片后的 IP 包不会超过 MTU 大小。</p>
+<p><strong>幂等</strong>：多次执行相同的操作，结果都是相同的。</p>
+<p><strong>URI</strong>：统一资源标志符，可唯一标识资源。</p>
+<p><strong>URL</strong>：统一资源定位符。是URI的子集，还提供了如何定位资源的信息（即资源的访问方式）。</p>
+<p><strong>RFC</strong>(Requests for Comments)：请求注解文档。用于发布Internet标准和Internet其他正式出版物的一种网络文件，是关于某项技术官方维护的最全面、最权威的文档。一个RFC文件在成为官方标准前，至少经过<strong>建议标准</strong>、<strong>草案标准</strong>、<strong>因特网标准</strong>三个阶段。</p>
+<p><strong>SSL</strong>(Secure Socket Layer)安全套接字层<br>||<br><strong>TLS</strong>(Transport Layer Security)传输层安全协议</p>
+<p><strong>RTT</strong>(Round-Trip Time)：往返时延。是指数据从网络一端传到另一端再收到接收端确认所需的时间。</p>
+<p><em><strong>MAC地址</strong></em>(Media Access Control Address)：媒体存取控制位址，也叫局域网地址 &#x2F; 以太网地址 &#x2F; 物理地址 &#x2F; 硬件地址，用来确认网络设备位置。在OSI模型中，第三层网络层负责IP地址，第二层数据链路层负责MAC地址，用来唯一标识一张网卡。</p>
+<p><em><strong>MSL</strong></em>（Maximum Segment Lifetime）报文最大生存时间。任何报文在网络上存在的最长时间，超过后将被丢弃。</p>
+<p><em><strong>TTL</strong></em>（Time to Live）指网络层一个网络数据包的生存周期，只要一个路由器处理过这个数据包，它就递减这个数据包的寿命计数，当寿命计数递减到0的时候，路由器就丢弃该包。</p>
+<p><em><strong>RTO</strong></em>（Retransmission Timeout）超时重传时间，通常略大于RTT。</p>
+<h2 id="一、基础篇"><a href="#一、基础篇" class="headerlink" title="一、基础篇"></a>一、基础篇</h2><h3 id="1-1、TCP-x2F-IP网络模型"><a href="#1-1、TCP-x2F-IP网络模型" class="headerlink" title="1.1、TCP&#x2F;IP网络模型"></a>1.1、TCP&#x2F;IP网络模型</h3><p>以下并非严格意义的TCP&#x2F;IP模型,而是教学使用时的五层网络模型，网络接口被分成两层。</p>
+<table>
+<thead>
+<tr>
+<th>层级</th>
+<th>功能</th>
+<th>主要协议</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>应用层</td>
+<td>专注于为用户提供应用功能，不关心数据如何传输（在用户态工作，往下是内核态）</td>
+<td>HTTP、FTP、 DNS、(SMTP -&gt; IMAP)、Telnet、SSH、NFS、DHCP（工作）</td>
+</tr>
+<tr>
+<td>传输层</td>
+<td>负责向两台终端设备进程之间的通信提供通用的数据传输服务。</td>
+<td>TCP、UDP</td>
+</tr>
+<tr>
+<td>网络层</td>
+<td>实际的传输功能，为分组交换网上的不同主机提供通信服务；选择合适的路由</td>
+<td>IP、ICMP、IGMP、NAT（路由的网络地址转换协议）</td>
+</tr>
+<tr>
+<td>数据链路层（网络接口）</td>
+<td>数据链路层的作用是将网络层交下来的 IP 数据报组装成帧，在两个相邻节点间的链路上传送帧</td>
+<td>ARP、RARP</td>
+</tr>
+<tr>
+<td>物理层（网络接口）</td>
+<td>实现相邻计算机节点之间比特流的透明传送，尽可能屏蔽掉具体传输介质和物理设备的差异</td>
+<td></td>
+</tr>
+</tbody></table>
+<p>应用层协议：</p>
+<table>
+<thead>
+<tr>
+<th>基于<code>TCP</code>的应用层协议</th>
+<th>基于<code>UDP</code>的应用层协议</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>HTTP、FTP、SMTP、TELNET、SSH</td>
+<td>DNS、SFTP（简单）、SNMP（简单）</td>
+</tr>
+</tbody></table>
+<p><strong>为什么要分层？</strong></p>
+<ol>
+<li>各层之间相互独立</li>
+<li>提高整体灵活性</li>
+<li>大问题化小</li>
+</ol>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/../images/%E8%AE%A1%E7%BD%91(%E9%9D%A2%E8%AF%95)/25.jpg" alt="网络分层模型"></p>
+<p><strong>传输单位：</strong> 网络接口层–&gt;帧（frame），IP 层–&gt;包（packet），TCP 层–&gt;段（segment），HTTP–&gt;报文（message）。但这些没有本质区别，可以统称为<em><strong>数据包</strong></em>。</p>
+<h3 id="1-2-键入网址到网页显示，期间发生了什么？"><a href="#1-2-键入网址到网页显示，期间发生了什么？" class="headerlink" title="1.2 键入网址到网页显示，期间发生了什么？"></a>1.2 键入网址到网页显示，期间发生了什么？</h3><ol>
+<li><code>解析URL</code>：首先浏览器要解析URL，<em><strong>URL</strong></em>包括协议 + web服务器 + 目录名和文件名，继而生成发送给web服务器的、对该资源的请求信息</li>
+<li><code>DNS解析</code>：查询服务器域名对应的 IP 地址。<strong>DNS服务器</strong>保存了 Web 服务器域名与 IP 的对应关系。客户端发送DNS请求给本地DNS服务器，查询对应的IP地址后返回客户端。PS：需要查询时，<strong>浏览器、操作系统、hosts文件</strong>依次看有没有缓存，不一定每次都要解析IP。</li>
+<li><code>TCP连接</code>：HTTP报文是基于TCP传输的，涉及到三次握手。组装好TCP报文后交给网络层处理。</li>
+<li><code>发送HTTP请求</code>：<br>   (1) 加入IP头部，生成IP报文<br>   (2) 加入MAC头部。（发送方MAC地址在网卡里，接收方的MAC地址靠ARP协议在以太网广播寻找，当然也是有缓存的）<br>   (3) 再经过<em><strong>网卡</strong></em>、<em><strong>交换机</strong></em>、<em><strong>路由器</strong></em>，抵达服务器</li>
+<li><code>服务器处理请求并返回HTTP报文</code>：服务器依次检查<em><strong>MAC头部</strong></em>、<em><strong>IP头</strong></em>、<em><strong>TCP头</strong></em>检查序列号和端口号，HTTP进程收到后把这个网页封装在HTTP响应报文里并返回（相同步骤）。</li>
+<li><code>浏览器解析渲染页面</code>：浏览器是一个边解析边渲染的过程。</li>
+<li><code>连接结束</code></li>
+</ol>
+<h2 id="二、HTTP"><a href="#二、HTTP" class="headerlink" title="二、HTTP"></a>二、HTTP</h2><h3 id="2-1、常见面试题"><a href="#2-1、常见面试题" class="headerlink" title="2.1、常见面试题"></a>2.1、常见面试题</h3><h4 id="2-1-1、HTTP常见状态码"><a href="#2-1-1、HTTP常见状态码" class="headerlink" title="2.1.1、HTTP常见状态码"></a>2.1.1、HTTP常见状态码</h4><ul>
+<li><strong>1xx 提示信息</strong> 协议处理的一种中间状态，表示接收的请求正在处理。</li>
+<li><strong>2xx 成功</strong> 服务器正常收到客户端的请求，并处理完毕。<br><code>200 OK</code> 是最常见的成功状态码，表示一切正常。如果是非 HEAD 请求，服务器返回的响应头都会有 body 数据。<br><code>204 No Content</code>与 200 OK 基本相同，但响应头没有 body 数据。<br><code>206 Partial Content</code> 应用于 HTTP 分块下载或断点续传，表示响应返回的 body 数据并不是资源的全部，而是其中的一部分。</li>
+<li><strong>3xx 重定向</strong> 表示客户端请求的资源发送了变动，需要客户端用新的 URL 重新发送请求获取资源。<br><code>301 Moved Permanently</code>永久重定向。说明请求的资源已经不存在了，需改用新的 URL 再次访问。<br><code>302 Found</code>临时重定向。说明请求的资源还在，但暂时需要用另一个 URL 来访问。<br>301 和 302 都会在响应头里使用字段 Location，指明后续要跳转的 URL，浏览器会自动重定向新的 URL。<br><code>304 Not Modified</code>不具有跳转的含义，表示资源未修改，重定向已存在的缓冲文件，也称缓存重定向，也就是告诉客户端可以继续使用缓存资源，用于缓存控制。</li>
+<li><strong>4xx 客户端错误</strong> 表示客户端发送的报文有误，服务器无法处理，也就是错误码的含义。<br><code>400 Bad Request</code>表示客户端请求的报文有错误，但只是个笼统的错误。<br><code>403 Forbidden</code>表示服务器禁止访问资源，并不是客户端的请求出错。<br><code>404 Not Found</code>表示请求的资源在服务器上不存在或未找到，所以无法提供给客户端。</li>
+<li><strong>5xx 服务器错误</strong> 表示客户端请求报文正确，但是服务器处理时内部发生了错误。<br><code>500 Internal Server Error</code>与 400 类似，是个笼统通用的错误码，服务器发生了什么错误，我们并不知道。<br><code>501 Not Implemented</code>表示客户端请求的功能还不支持，类似“即将开业，敬请期待”的意思。<br><code>502 Bad Gateway</code>通常是服务器作为网关或代理时返回的错误码，表示服务器自身工作正常，访问后端服务器发生了错误。<br><code>503 Service Unavailable</code>表示服务器当前很忙，暂时无法响应服务器，类似“网络服务正忙，请稍后重试”的意思</li>
+</ul>
+<h4 id="2-1-2、HTTP-x2F-1-1常见字段"><a href="#2-1-2、HTTP-x2F-1-1常见字段" class="headerlink" title="2.1.2、HTTP&#x2F;1.1常见字段"></a>2.1.2、HTTP&#x2F;1.1常见字段</h4><table>
+<thead>
+<tr>
+<th>通用首部字段</th>
+<th>请求首部字段： 用于补充请求的附加信息、客户端信息、响应内容优先级</th>
+<th>响应首部字段： 用于补充响应的附加信息、服务器信息和对客户端的附加要求</th>
+<th>实体首部字段： 实体部分使用的首部，补充与实体相关的信息</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Cache-Control：对缓存进行操作 <code>Connection</code>：管理持久连接；控制代理不再转发的首部字段 Date：报文创建时间 Pragma：历史遗留 Trailer：应用于分块传输编码时，说明主体内有什么字段 Transfer-Encoding：规定了传输报文体时采用的编码方式 Upgrade：指定另外一个通信协议；另需Connection:Upgrade Via：追踪请求和响应报文的传输路径 Warning：给出缓存相关的警告</td>
+<td><code>Accept</code>：通知用户代理可以处理的媒体类型和优先级；可用q来表示权重 Accept-Charset：指定用户代理支持的字符集 <code>Accept-Encoding</code>：用户代理支持的编码和优先级 Accept-Language：用户代理能够处理的自然语言和优先级 Authorization：用户代理的认证信息 Except：期望出现的特定行为 From：告知用户的电子邮件地址 <code>Host</code>：指定服务器域名，包括请求资源所处的<em><strong>主机名</strong></em>和<em><strong>端口号</strong></em>（必须包含，因为同一IP地址可能有多个域名 <code>条件请求：</code> If-Match：与<em><strong>ETag</strong></em>的值匹配时服务器才接受 <code>If-None-Match</code>：和ETag不一致的时候才接受（相反） <code>If-Modified-Since</code>：如果在这个指定时间后资源更新了，才接受 If-Unmodified-Since：这个时间后没更新才接受（相反） If-Range：如果指定的ETag或时间匹配上了，则返回范围请求（后面必须有Range）；否则返回全部资源 Max-Forwards：指定在代理服务器间的转发次数，每传送一次就-1 Proxy-Authorization：接受到代理服务器发来的认证时，客户端告知服务器认证所需信息 Range：只获取部分资源（字节-字节） Rferer：告知服务器请求原始资源的URI TE：指定传输编码方式和优先级（和Accept-Encoding很像，但属于传输编码） User-Agent：将浏览器、用户代理名称传给服务器</td>
+<td>Accept-Ranges：告知能否处理范围i请求：bytes&#x2F;none Age：创建响应过去了多久 <code>ETag</code>：告知客户端实体标识 Location：配合3XX，提供重定向的URI Proxy-Authenticate：把代理服务器要求的认证信息发给客户端（客户端-代理） WWW-Authenticate：告知客户端适用于访问请求URI资源的认证方案（客户端-服务器） Retry-After：告知客户端应该在多久之后再次请求 Server：告知客户端当前服务器上的HTTP服务器应用程序的信息 Vary：如果使用的Accept-Language值相同，就直接从缓存返回响应；反之则需要从源服务器获取资源才返回响应</td>
+<td>Allow：通知客户端支持访问资源的HTTP方法 <code>Content-Encoding</code>：告知客户端，自己返回的数据使用了什么压缩格式 Content-Language：告诉客户端实体主体所用自然语言 <code>Content-Length</code>：表明实体主体部分的大小 Content-Location：表示报文主体返回资源的URI Content-MD5：一段由MD5算法生成的值，检测主体是否保持完整 Content-Range告知客户端响应返回哪个部分 <code>Content-Type</code>：说明了实体主题内对象的媒体类型 Expires：将资源失效的日期告知客户端 <code>Last-Modified</code>：资源的最终修改时间</td>
+</tr>
+</tbody></table>
+<p><code>Host </code>客户端发送请求时，用来指定服务器的域名。<br><code>Content-Length</code>服务器在返回数据时，会有 Content-Length 字段，表明本次回应的数据长度。<br><code>Connection</code> 最常用于客户端要求服务器使用 TCP 持久连接，以便其他请求复用。HTTP&#x2F;1.1 版本的默认连接都是持久连接，但为了兼容老版本的 HTTP，需要指定 Connection 首部字段的值为 Keep-Alive。<br><code>Content-Type</code>服务器回应时，告诉客户端，本次数据是什么格式。客户端请求的时候，可以使用 <code>Accept</code>字段声明自己可以接受哪些数据格式。<br><code>Content-Encoding</code>表示服务器返回的数据使用了什么压缩格式。客户端在请求时，用 <code>Accept-Encoding</code>字段说明自己可以接受哪些压缩方法。<br><code>ETag</code>：一种将资源以字符串形式做唯一性标识的方式，服务器为每份资源分配对应的ETag值；资源更新时候，ETag值也更新。例如：Google中英文网页的URI虽然相同但对应的ETag不同。</p>
+<blockquote>
+<p>GET和POST区别</p>
+</blockquote>
+<p><strong>安全</strong>：是指请求方法不会「破坏」服务器上的资源<br><strong>幂等</strong>：多次执行相同的操作，结果都是「相同」的。<br>[《post和put的区别》](<a target="_blank" rel="noopener" href="https://blog.csdn.net/xcc_2269861428/article/details/80433382?ops_request_misc=&amp;request_id=&amp;biz_id=102&amp;utm_term=POST">https://blog.csdn.net/xcc_2269861428/article/details/80433382?ops_request_misc=&amp;request_id=&amp;biz_id=102&amp;utm_term=POST</a> 和PUT&amp;utm_medium&#x3D;distribute.pc_search_result.none-task-blog-2<del>all</del>sobaiduweb~default-3-80433382.142^v48^pc_rank_34_queryrelevant25,201^v3^add_ask&amp;spm&#x3D;1018.2226.3001.4187)：PUT是幂等的，相当于x &#x3D; 1；而POST不是幂等的，因为相当于上传资源。</p>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th><code>GET</code></th>
+<th><code>POST</code></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>语义</td>
+<td>请求获取指定的资源（只读）</td>
+<td>对指定的资源做出处理（新增或提交数据）</td>
+</tr>
+<tr>
+<td>安全性</td>
+<td>安全、幂等</td>
+<td>不安全、不幂等</td>
+</tr>
+<tr>
+<td>缓存</td>
+<td>可被缓存</td>
+<td>一般不会缓存</td>
+</tr>
+<tr>
+<td>请求数据位置</td>
+<td>一般写在URL中</td>
+<td>一般写在报文 body 中</td>
+</tr>
+</tbody></table>
+<p>如果不照RFC规范定义的语义来实现的话， 上述都不一定。<br>它们是 HTTP 请求协议的请求方法，而 HTTP 又是基于TCP&#x2F;IP的关于数据如何在万维网中如何通信的协议，所以 GET&#x2F;POST 实际上都是 TCP 链接。</p>
+<blockquote>
+<p>强制缓存和协商缓存</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>缓存技术</th>
+<th>强制缓存</th>
+<th>协商缓存</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>特点</td>
+<td>浏览器判断没过期，则使用缓存（浏览器主动）</td>
+<td>状态码<code>304</code>，告知客户端是否可以使用缓存（与服务端协商）</td>
+</tr>
+<tr>
+<td>字段</td>
+<td><code>Cache-control</code>:相对时间（优先级高） <code>Expires</code>：绝对时间</td>
+<td>请求<code>If-Modified-Since</code>和响应<code>Last-Modified</code>：如果在这个时间后更新了才接受 &amp; 响应资源最后修改时间 请求<code>If-None-Match</code>和响应<code>ETag</code>：和ETag不一致的时候才接受（ETag优先级高）</td>
+</tr>
+<tr>
+<td>结果</td>
+<td>如果最后修改时间较新，则返回最新资源 <code>200</code> 否则返回<code>304</code></td>
+<td>如果资源变化了返回<code>200</code>，否则返回<code>304</code></td>
+</tr>
+</tbody></table>
+<h4 id="2-1-3、HTTP1-1"><a href="#2-1-3、HTTP1-1" class="headerlink" title="2.1.3、HTTP1.1"></a>2.1.3、HTTP1.1</h4><p><strong>优点</strong></p>
+<ol>
+<li>简单</li>
+<li>灵活易扩展（例如HTTPS和HTTP&#x2F;3对TCP层的修改）</li>
+<li>应用广泛，跨平台</li>
+</ol>
+<p><strong>缺点</strong></p>
+<ol>
+<li>无状态——Cookie解决</li>
+<li>不安全<ul>
+<li>明文传输 - 被<strong>窃听</strong></li>
+<li>不验证通信方身份 - 被<strong>冒充和伪装</strong></li>
+<li>不校验报文完整性 - 被<strong>篡改</strong></li>
+</ul>
+</li>
+</ol>
+<p><strong>性能</strong>（和<code>HTTP1.0</code>相比的优势）总之一般般</p>
+<p>优点 1. 长连接——减少重复操作的开销<br>优点 2. 管道网络传输——不等回应即可发送第二个请求，减少响应时间<br>缺点 3. 队头阻塞 （2.没有解决的缺点）</p>
+<h4 id="2-1-4、HTTPS"><a href="#2-1-4、HTTPS" class="headerlink" title="2.1.4、HTTPS"></a>2.1.4、HTTPS</h4><p>HTTP的<em><strong>通信接口</strong></em>部分用SSL和TLS协议代替 &#x3D;&#x3D; HTTPS（即HTTP + 加密 + 认证 + 完整性保护）</p>
+<table>
+<thead>
+<tr>
+<th>协议</th>
+<th>HTTP</th>
+<th>HTTPS</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>安全性</td>
+<td>明文传输</td>
+<td>TCP 和 HTTP 之间加入了 SSL&#x2F;TLS 安全协议，加密传输报文</td>
+</tr>
+<tr>
+<td>连接</td>
+<td>三次握手</td>
+<td>三次握手+SSL&#x2F;TLS握手</td>
+</tr>
+<tr>
+<td>端口号</td>
+<td>80</td>
+<td>443</td>
+</tr>
+</tbody></table>
+<p>另外HTTPS需要向CA申请数字证书来确保服务器的身份</p>
+<p>如何解决HTTP的安全问题：</p>
+<ul>
+<li>明文传输产生的<em><strong>窃听</strong></em>问题——信息加密 <code>（混合加密）</code></li>
+<li>不验证身份产生的<em><strong>冒充</strong></em>问题——校验机制 <code>（证书）</code></li>
+<li>不校验完整性产生的<em><strong>篡改</strong></em>问题——身份证书 <code>（摘要算法）</code></li>
+</ul>
+<p>常见非对称加密算法：RSA、DSA、ECC、DH<br>对称：DES、3DES、AES、RC（记：RC或者ES结尾的是对称）</p>
+<h4 id="2-1-5、HTTP的演变"><a href="#2-1-5、HTTP的演变" class="headerlink" title="2.1.5、HTTP的演变"></a>2.1.5、HTTP的演变</h4><table>
+<thead>
+<tr>
+<th>协议</th>
+<th>HTTP&#x2F;1.1</th>
+<th>HTTP&#x2F;2</th>
+<th>HTTP&#x2F;3(QUIC的特点)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>改进</td>
+<td>1.<em><strong>长连接</strong></em> 2.<em><strong>管道运输</strong></em>：一次发送多个请求 3.废弃了两种<em><strong>请求方法</strong></em>LINK和UNLINK，新增了CONNECT、OPTIONS和TRACE 4.新增了大量状态码</td>
+<td>1.头部压缩（解决1） 2.<code>二</code>进制格式 3.数据流：可以乱序发送，后stream ID组成HTTP信息 4.多路复用，串行变成并发（解决2） 5.服务器推送（解决3）</td>
+<td><code>TCP</code>-&gt;<code>UDP</code>+ <code>QUIC</code> 1.无队头阻塞 2.更快的连接建立（QUIC包含TLS，只需1个RTT） 3.连接迁移</td>
+</tr>
+<tr>
+<td>不足</td>
+<td>1.<strong>头部冗长</strong>，未经压缩，浪费带宽，造成延迟 2.没有请求优先级，所以<strong>队头阻塞</strong>(HTTP层) 3.服务器只能被动接收客户端的请求</td>
+<td>TCP层队头阻塞 TCP和TLS握手时延</td>
+<td>普及慢，很多网络设备不识别QUIC</td>
+</tr>
+</tbody></table>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/../images/%E8%AE%A1%E7%BD%91(%E9%9D%A2%E8%AF%95)/2bb642c9f9494fdcae14b41968029684.png#pic_center" alt="HTTP演变"></p>
+<h3 id="2-2、HTTP-加密算法"><a href="#2-2、HTTP-加密算法" class="headerlink" title="2.2、HTTP 加密算法"></a>2.2、HTTP 加密算法</h3><blockquote>
+<p>RSA握手</p>
+</blockquote>
+<p>即常规的混合加密机制：交换密钥环节使用<em><strong>公开密钥（非对称）</strong></em> 加密，建立通信交换报文阶段使用<em><strong>共享密钥（对称）</strong></em> 加密。</p>
+<p>特点：传统密钥交换算法，不具备前向安全（服务端私钥泄漏后会被破解）</p>
+<blockquote>
+<p>ECDHE握手</p>
+</blockquote>
+<p><strong><code>ECDHE</code>具有前向安全，被广泛使用，由<code>DH</code>算法演变</strong></p>
+<hr>
+<ul>
+<li><code>DH算法</code> 基于离散对数：即在对数基础上加上<em><strong>取模运算</strong></em><br>效果：知道对数就可以计算出真数，但知道真数却很难推出对数</li>
+</ul>
+<p>举例：小明和小红确定了P和G（公开），各自生成了随机整数a和b作为<em><strong>私钥</strong></em>，别人不知道，他们俩根据P、G、a&#x2F;b分别计算出了公钥A和B，并交换A和B。根据离散对数的交换律，他们俩分别用A+b和B+a计算时，可以得到相同的K，这个K就是对称加密密钥，可以作为会话密钥。</p>
+<p>整个协商过程中，小红和小明只公开了P、G和各自的A&#x2F;B（<em><strong>公钥</strong></em>），没有公开a&#x2F;b（<em><strong>私钥</strong></em>），黑客是无法计算出来的。</p>
+<hr>
+<ul>
+<li><code>DHE</code>：因为DH交换时服务器的公钥不变，所以有可能被破解出私钥。干脆每次交换时都随机生成临时的<em><strong>私钥</strong></em>，也就是<code>DHE</code>算法（<em><strong>ephemeral临时性的</strong></em>）</li>
+</ul>
+<hr>
+<ul>
+<li><code>ECDHE</code>：利用EDC椭圆曲线，更容易计算出公钥和最终的会话密钥<br>大概如下：双方确定好椭圆曲线和基点，各自生成私钥d，并和基点处理得到公钥Q；双方交换公钥，因为椭圆曲线满足乘法交换律，所以x坐标是一样的，是共享密钥（会话密钥）。</li>
+</ul>
+<p><em><strong>特点</strong></em>：私钥随机生成，根据公开信息也很难破解私钥。</p>
+<p><em><strong>四次握手</strong></em></p>
+<ol>
+<li><strong>客户端</strong>发送TLS版本号、支持密码套件列表和随机数a</li>
+<li><strong>服务端</strong>确认版本号、加密方法（<code>ECDHE</code>），并给出随机数b；此外，生成随机数（椭圆曲线私钥），给出椭圆曲线和公钥（私钥和椭圆曲线计算），附带用RSA给椭圆曲线做的签名证书</li>
+<li><strong>客户端</strong>校验证书，生成一个随机数作为客户端椭圆曲线的私钥，计算得到客户端公钥并发给服务端。<br>至此，双方都有对方的椭圆曲线公钥、自己的私钥和曲线，于是都算出来了坐标x，用<code>a+b+x</code>作为最终会话密钥。<br>客户端再说明一下之后要加密，和摘要等等</li>
+<li><strong>服务端</strong>说明之后加密，和摘要。</li>
+</ol>
+<p>区别：</p>
+<table>
+<thead>
+<tr>
+<th>ECDHE</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1.支持前向保密</td>
+</tr>
+<tr>
+<td>2.客户端可以不用等最后一次握手，就提前发出加密的数据。因为RSA中，服务端要等到客户端第三次握手把密钥发过去后才可以通信，而ECDHE中，两方在第二和第三次握手已经确定好了会话密钥</td>
+</tr>
+</tbody></table>
+<h3 id="2-3、HTTP-1-1如何优化？"><a href="#2-3、HTTP-1-1如何优化？" class="headerlink" title="2.3、HTTP 1.1如何优化？"></a>2.3、HTTP 1.1如何优化？</h3><p><em><strong>三个角度优化</strong></em></p>
+<table>
+<thead>
+<tr>
+<th>三个角度</th>
+<th>具体优化方法</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><em><strong>避免发送HTTP请求</strong></em></td>
+<td><code>缓存</code> 客户端第一次请求及数据保存在本地磁盘，形成&lt;key,value&gt; 过期？在请求的<code>ETag</code>带上第一次请求中<em><strong>响应头部</strong></em>的摘要，服务器收到后会与本地资源的摘要作比较，如果相同则返回不含包体的<code>304 Not Modified</code></td>
+</tr>
+<tr>
+<td><em><strong>减少请求次数</strong></em></td>
+<td>1. <em><strong>减少重定向请求次数</strong></em>：利用中间的代理服务器知晓规则 2. <em><strong>合并请求</strong></em>：合并资源，如CSS、webpack 3. <em><strong>延迟发送请求</strong></em>：按需获取，滑动页面的时候再获取资源</td>
+</tr>
+<tr>
+<td><em><strong>减少服务器响应数据大小</strong></em></td>
+<td>无损压缩：gzip。请求<code>Accepy-Encoding</code>，响应<code>Content-Encoding</code>（文本、程序代码) 有损压缩：舍弃一些数据（质量）。请求<code>Accept</code>中的q质量因子（音视频、图片）</td>
+</tr>
+</tbody></table>
+<h3 id="2-4、HTTPS-如何优化？"><a href="#2-4、HTTPS-如何优化？" class="headerlink" title="2.4、HTTPS 如何优化？"></a>2.4、HTTPS 如何优化？</h3><ol>
+<li><em><strong>硬件优化、软件优化</strong></em>：HTTPS 协议是<em><strong>计算密集型</strong></em>，而不是 I&#x2F;O 密集型，所以不能把钱花在网卡、硬盘等地方，应该花在 <code>CPU</code> 上</li>
+<li><em><strong>协议优化</strong></em><br>  （1）用ECDHE替换RSA，往返<code>1</code>RTT，<br>  （2）TLS 1.2-&gt;<code>TLS 1.3</code>，往返<code>1</code>RTT；在Hello时就发送椭圆曲线，且废除RSA和DH</li>
+<li><em><strong>证书优化</strong></em><br>  （1）证书选择：椭圆曲线证书比RSA密钥长度短<br>  （2）证书验证优化：<code>OCSP</code>(Online Certificate Status Protocal)、<code>OCSP Stapling</code></li>
+<li><em><strong>密钥缓存</strong></em>（无前向安全，且易被重放攻击）<br>  （1）<em><strong>Session ID</strong></em>：双方缓存密钥，Session ID和密钥相当于key-value。但是也有缺点，首先是每一个客户端都要保存密钥，其次是现在网站一般多服务器，不一定命中上次的服务器<br>  （2）<em><strong>Session Ticket</strong></em>：客户端负责缓存。<br>  （3）<em><strong>Pre-shared Key</strong></em>：<code>TLS 1.3</code>重连只需要<code>0</code> RTT。重连时Ticket和HTTP一起发给服务端</li>
+</ol>
+<p>解决重放攻击，应给密钥<em><strong>设定过期时间</strong></em>。</p>
+<h3 id="2-5、HTTP-2-提高传输效率、吞吐能力"><a href="#2-5、HTTP-2-提高传输效率、吞吐能力" class="headerlink" title="2.5、HTTP 2 提高传输效率、吞吐能力"></a>2.5、HTTP 2 提高传输效率、吞吐能力</h3><blockquote>
+<p>兼容HTTP 1.1</p>
+</blockquote>
+<p>没有在URL改变协议名字，只在应用层做了改变，还是基于TCP传输，但是把HTTP分解成了<code>语义</code>和<code>语法</code>，语义没变，还是请求方法、状态码和头字段等，语法有很多改变。</p>
+<blockquote>
+<p>头部压缩 （解决头部冗长问题）</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">HPACK`取代`gzip</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li><em><strong>静态表</strong></em>：首先两端维护一个字典，用索引号<code>index</code>代替字段名（GET,200,https等），共61种高频字符串</li>
+<li><em><strong>动态表</strong></em>：发送新首部时在静态表里添加索引号</li>
+<li><em><strong>Huffman编码</strong></em>：关于首部字段的内容用哈夫曼编码代替，基于二进制编码，不需要\r\n，改用表示字符串长度的Value Length</li>
+</ol>
+<blockquote>
+<p>二进制帧</p>
+</blockquote>
+<p>二进制+位运算</p>
+<blockquote>
+<p>并发传输（解决队头阻塞问题）</p>
+</blockquote>
+<p>多个Stream复用一条TCP连接，达到并发效果；每个帧头携带Stream ID，同一Stream内部的帧严格有序，方便接收后组装；还可以设置优先级，比方说先传递HTML再传递图片</p>
+<p>包含关系：TCP连接 &gt; Stream &gt; Message &gt;Frame</p>
+<blockquote>
+<p>服务器主动推送（解决不支持服务器推送问题）</p>
+</blockquote>
+<hr>
+<p>但是<a target="_blank" rel="noopener" href="https://so.csdn.net/so/search?q=HTTP2&spm=1001.2101.3001.7020">HTTP2</a>是基于TCP传输数据的，TCP是字节流协议，必须保证字节数据是完整连续的，内核才会将缓冲区的数据给HTTP应用，这方面存在阻塞，因此改用UDP，即HTTP 3</p>
+<h3 id="2-6、HTTP-3"><a href="#2-6、HTTP-3" class="headerlink" title="2.6、HTTP 3"></a>2.6、HTTP 3</h3><p>之前存在的问题：</p>
+<ol>
+<li>队头阻塞：TCP丢包时，整个TCP都要等待重传</li>
+<li>握手延迟：发起HTTP请求时，需要经过TCP+TLS总计<code>3</code>RTT时延</li>
+<li>网络迁移需要重新连接：4G切WiFi时要重新握手，因为IP地址和端口变动了</li>
+</ol>
+<p><code>QUIC</code>协议特点：</p>
+<ol>
+<li>无队头阻塞，Stream之间没有依赖</li>
+<li>更快建立连接：QUIC包含TLS，只需要<code>1</code>RTT即可握手</li>
+<li>连接迁移：通过<code>连接ID</code>标记两个端点，而不是IP地址和端口</li>
+</ol>
+<p>其他：<code>HPACK</code>升级-&gt;<code>QPACK</code>，静态表91项</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="http://www.haungrd.top">Huang RD</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://www.haungrd.top/2022/12/28/%E8%AE%A1%E7%BD%91-%E9%9D%A2%E8%AF%95/">http://www.haungrd.top/2022/12/28/%E8%AE%A1%E7%BD%91-%E9%9D%A2%E8%AF%95/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://www.haungrd.top" target="_blank">Huang Blog</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a></div><div class="post_share"><div class="social-share" data-image="https://www.huangrd.top/images/agentina/13.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2023/01/03/%E5%88%86%E5%B8%83%E5%BC%8F%E6%90%9C%E7%B4%A2%E5%BC%95%E6%93%8E02/"><img class="prev-cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://www.huangrd.top/images/agentina/5.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">分布式搜索引擎ElasticSearch2</div></div></a></div><div class="next-post pull-right"><a href="/2022/12/28/%E5%88%86%E5%B8%83%E5%BC%8F%E6%90%9C%E7%B4%A2%E5%BC%95%E6%93%8E01/"><img class="next-cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://www.huangrd.top/images/agentina/8.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">分布式搜索引擎ElasticSearch1</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2022/11/20/%E8%AE%A1%E7%BD%91%E7%AE%80%E8%A6%81/" title="计算机网络"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://www.huangrd.top/images/agentina/8.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-11-20</div><div class="title">计算机网络</div></div></a></div><div><a href="/2022/11/20/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" title="计算机网络"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://www.huangrd.top/images/agentina/10.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-11-20</div><div class="title">计算机网络</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://getwallpapers.com/wallpaper/full/a/1/8/1057222-free-download-cool-nature-backgrounds-1920x1200-windows-10.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Huang RD</div><div class="author-info__description">Huang Rui Dong Blog</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">26</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">28</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">5</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/A-JAVAer-HRD"><i class="fab fa-github"></i><span>了解���..</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/A-JAVAer-HRD" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:huangruidong.xauat@gmail.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">欢�����������������客��</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C"><span class="toc-text">计算机网络</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%90%8D%E8%AF%8D"><span class="toc-text">名词</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E5%9F%BA%E7%A1%80%E7%AF%87"><span class="toc-text">一、基础篇</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-1%E3%80%81TCP-x2F-IP%E7%BD%91%E7%BB%9C%E6%A8%A1%E5%9E%8B"><span class="toc-text">1.1、TCP&#x2F;IP网络模型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-2-%E9%94%AE%E5%85%A5%E7%BD%91%E5%9D%80%E5%88%B0%E7%BD%91%E9%A1%B5%E6%98%BE%E7%A4%BA%EF%BC%8C%E6%9C%9F%E9%97%B4%E5%8F%91%E7%94%9F%E4%BA%86%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="toc-text">1.2 键入网址到网页显示，期间发生了什么？</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E3%80%81HTTP"><span class="toc-text">二、HTTP</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1%E3%80%81%E5%B8%B8%E8%A7%81%E9%9D%A2%E8%AF%95%E9%A2%98"><span class="toc-text">2.1、常见面试题</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#2-1-1%E3%80%81HTTP%E5%B8%B8%E8%A7%81%E7%8A%B6%E6%80%81%E7%A0%81"><span class="toc-text">2.1.1、HTTP常见状态码</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-1-2%E3%80%81HTTP-x2F-1-1%E5%B8%B8%E8%A7%81%E5%AD%97%E6%AE%B5"><span class="toc-text">2.1.2、HTTP&#x2F;1.1常见字段</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-1-3%E3%80%81HTTP1-1"><span class="toc-text">2.1.3、HTTP1.1</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-1-4%E3%80%81HTTPS"><span class="toc-text">2.1.4、HTTPS</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-1-5%E3%80%81HTTP%E7%9A%84%E6%BC%94%E5%8F%98"><span class="toc-text">2.1.5、HTTP的演变</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2%E3%80%81HTTP-%E5%8A%A0%E5%AF%86%E7%AE%97%E6%B3%95"><span class="toc-text">2.2、HTTP 加密算法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-3%E3%80%81HTTP-1-1%E5%A6%82%E4%BD%95%E4%BC%98%E5%8C%96%EF%BC%9F"><span class="toc-text">2.3、HTTP 1.1如何优化？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-4%E3%80%81HTTPS-%E5%A6%82%E4%BD%95%E4%BC%98%E5%8C%96%EF%BC%9F"><span class="toc-text">2.4、HTTPS 如何优化？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-5%E3%80%81HTTP-2-%E6%8F%90%E9%AB%98%E4%BC%A0%E8%BE%93%E6%95%88%E7%8E%87%E3%80%81%E5%90%9E%E5%90%90%E8%83%BD%E5%8A%9B"><span class="toc-text">2.5、HTTP 2 提高传输效率、吞吐能力</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-6%E3%80%81HTTP-3"><span class="toc-text">2.6、HTTP 3</span></a></li></ol></li></ol></li></ol></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2022 - 2023 By Huang RD</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="translateLink" type="button" title="简繁转换">简</button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div></div></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page/instantpage.min.js" type="module"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload/dist/lazyload.iife.min.js"></script><script src="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.js"></script><script>function panguFn () {
+  if (typeof pangu === 'object') pangu.autoSpacingPage()
+  else {
+    getScript('https://cdn.jsdelivr.net/npm/pangu/dist/browser/pangu.min.js')
+      .then(() => {
+        pangu.autoSpacingPage()
+      })
+  }
+}
+
+function panguInit () {
+  if (false){
+    GLOBAL_CONFIG_SITE.isPost && panguFn()
+  } else {
+    panguFn()
+  }
+}
+
+document.addEventListener('DOMContentLoaded', panguInit)</script><script src="/js/search/local-search.js"></script><div class="js-pjax"></div><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="30" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/canvas-nest.min.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
