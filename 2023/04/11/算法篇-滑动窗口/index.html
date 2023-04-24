@@ -1,0 +1,491 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>算法篇-滑动窗口 | Huang Blog</title><meta name="author" content="Huang RD"><meta name="copyright" content="Huang RD"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="ffffff"><meta name="description" content="滑动窗口概述滑动窗口，就是不断的调节子序列的起始位置和终止位置，从而得出我们要想的结果。 在遍历一个数组的过程中： 在暴力解法中，是一个for循环滑动窗口的起始位置，一个for循环为滑动窗口的终止位置，用两个for循环完成了一个不断搜索区间的过程。 那么滑动窗口如何用一个for循环来完成这个操作呢。 首先要思考 如果用一个for循环，那么应该表示 滑动窗口的起始位置，还是终止位置。 如果只用一个f">
+<meta property="og:type" content="article">
+<meta property="og:title" content="算法篇-滑动窗口">
+<meta property="og:url" content="http://www.haungrd.top/2023/04/11/%E7%AE%97%E6%B3%95%E7%AF%87-%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3/index.html">
+<meta property="og:site_name" content="Huang Blog">
+<meta property="og:description" content="滑动窗口概述滑动窗口，就是不断的调节子序列的起始位置和终止位置，从而得出我们要想的结果。 在遍历一个数组的过程中： 在暴力解法中，是一个for循环滑动窗口的起始位置，一个for循环为滑动窗口的终止位置，用两个for循环完成了一个不断搜索区间的过程。 那么滑动窗口如何用一个for循环来完成这个操作呢。 首先要思考 如果用一个for循环，那么应该表示 滑动窗口的起始位置，还是终止位置。 如果只用一个f">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://www.huangrd.top/images/agentina/5.jpg">
+<meta property="article:published_time" content="2023-04-11T13:12:57.000Z">
+<meta property="article:modified_time" content="2023-04-12T10:39:20.401Z">
+<meta property="article:author" content="Huang RD">
+<meta property="article:tag" content="Java">
+<meta property="article:tag" content="计算机基础">
+<meta property="article:tag" content="数据结构">
+<meta property="article:tag" content="算法">
+<meta property="article:tag" content="滑动窗口">
+<meta property="article:tag" content="数组">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://www.huangrd.top/images/agentina/5.jpg"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://www.haungrd.top/2023/04/11/%E7%AE%97%E6%B3%95%E7%AF%87-%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"简"},
+  noticeOutdate: {"limitDay":365,"position":"top","messagePrev":"It has been","messageNext":"days since the last update, the content of the article may be outdated."},
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":230},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: true,
+    post: true
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: {"chs_to_cht":"你已切换为繁体","cht_to_chs":"你已切换为简体","day_to_night":"你已切换为深色模式","night_to_day":"你已切换为浅色模式","bgLight":"#49b1f5","bgDark":"#1f1f1f","position":"top-right"},
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: true,
+  isAnchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '算法篇-滑动窗口',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2023-04-12 18:39:20'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', 'ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          const now = new Date()
+          const hour = now.getHours()
+          const isNight = hour <= 6 || hour >= 18
+          if (t === undefined) isNight ? activateDarkMode() : activateLightMode()
+          else if (t === 'light') activateLightMode()
+          else activateDarkMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 6.3.0"></head><body><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://getwallpapers.com/wallpaper/full/a/1/8/1057222-free-download-cool-nature-backgrounds-1920x1200-windows-10.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">50</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">62</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">17</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><span> 清单</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/Gallery/"><i class="fa-fw fas fa-images"></i><span> 照片</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://www.huangrd.top/images/agentina/5.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Huang Blog</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><span> 清单</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/Gallery/"><i class="fa-fw fas fa-images"></i><span> 照片</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">算法篇-滑动窗口</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-04-11T13:12:57.000Z" title="发表于 2023-04-11 21:12:57">2023-04-11</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-04-12T10:39:20.401Z" title="更新于 2023-04-12 18:39:20">2023-04-12</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E7%AE%97%E6%B3%95/">算法</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">6.7k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>25分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="算法篇-滑动窗口"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="滑动窗口"><a href="#滑动窗口" class="headerlink" title="滑动窗口"></a>滑动窗口</h1><h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>滑动窗口，就是<strong>不断的调节子序列的起始位置和终止位置，从而得出我们要想的结果</strong>。</p>
+<p>在遍历一个数组的过程中：</p>
+<p>在暴力解法中，是一个for循环滑动窗口的起始位置，一个for循环为滑动窗口的终止位置，用两个for循环完成了一个不断搜索区间的过程。</p>
+<p>那么滑动窗口如何用一个for循环来完成这个操作呢。</p>
+<p>首先要思考 如果用一个for循环，那么应该表示 滑动窗口的起始位置，还是终止位置。</p>
+<p>如果只用一个for循环来表示 滑动窗口的起始位置，那么如何遍历剩下的终止位置？此时难免再次陷入 暴力解法的怪圈。</p>
+<p>所以只用一个for循环，那么<strong>这个循环的索引，一定是表示滑动窗口的终止位置。</strong></p>
+<p>那么问题来了， 滑动窗口的起始位置如何移动呢？</p>
+<p>这里还是以<code>长度最小的子数组</code>中的示例来举例，s&#x3D;7， 数组是 2，3，1，2，4，3，来看一下查找的过程：</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/../images/%E7%AE%97%E6%B3%95%E7%AF%87-%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3/209.%E9%95%BF%E5%BA%A6%E6%9C%80%E5%B0%8F%E7%9A%84%E5%AD%90%E6%95%B0%E7%BB%84.gif" alt="209.长度最小的子数组"></p>
+<p>最后找到 4，3 是最短距离。</p>
+<p>其实从动画中可以发现<strong>滑动窗口也可以理解为双指针法的一种！只不过这种解法更像是一个窗口的移动，所以叫做滑动窗口更适合一些。</strong></p>
+<p>实现滑动窗口，主要确定如下三点：</p>
+<ul>
+<li>窗口内是什么？</li>
+<li>如何移动窗口的起始位置？</li>
+<li>如何移动窗口的结束位置？</li>
+</ul>
+<p><strong>滑动窗口的精妙之处在于根据当前子序列和大小的情况，不断调节子序列的起始位置。从而将O(n^2)暴力解法降为O(n)。</strong></p>
+<p>滑动窗口题目:</p>
+<ul>
+<li><p>无重复字符的最长子串</p>
+</li>
+<li><p>串联所有单词的子串</p>
+</li>
+<li><p>最小覆盖子串</p>
+</li>
+<li><p>至多包含两个不同字符的最长子串</p>
+</li>
+<li><p>长度最小的子数组</p>
+</li>
+<li><p>滑动窗口最大值</p>
+</li>
+<li><p>字符串的排列</p>
+</li>
+<li><p>最小区间</p>
+</li>
+<li><p>最小窗口子序列</p>
+</li>
+</ul>
+<h2 id="力扣"><a href="#力扣" class="headerlink" title="力扣"></a>力扣</h2><h3 id="LC209-长度最小的子数组"><a href="#LC209-长度最小的子数组" class="headerlink" title="LC209. 长度最小的子数组"></a>LC209. 长度最小的子数组</h3><p>给定一个含有 <code>n</code> 个正整数的数组和一个正整数 <code>target</code> <strong>。</strong></p>
+<p>找出该数组中满足其和 <code>≥ target</code> 的长度最小的 <strong>连续子数组</strong> <code>[numsl, numsl+1, ..., numsr-1, numsr]</code> ，并返回其长度<strong>。</strong>如果不存在符合条件的子数组，返回 <code>0</code> 。</p>
+<p><strong>示例 1：</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">输入：target = 7, nums = [2,3,1,2,4,3]</span><br><span class="line">输出：2</span><br><span class="line">解释：子数组 [4,3] 是该条件下的长度最小的子数组。</span><br></pre></td></tr></table></figure>
+
+<p><strong>示例 2：</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">输入：target = 4, nums = [1,4,4]</span><br><span class="line">输出：1</span><br></pre></td></tr></table></figure>
+
+<p><strong>示例 3：</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">输入：target = 11, nums = [1,1,1,1,1,1,1,1]</span><br><span class="line">输出：0</span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>提示：</strong></p>
+<ul>
+<li><code>1 &lt;= target &lt;= 109</code></li>
+<li><code>1 &lt;= nums.length &lt;= 105</code></li>
+<li><code>1 &lt;= nums[i] &lt;= 105</code></li>
+</ul>
+<p><strong>进阶：</strong></p>
+<ul>
+<li>如果你已经实现 <code>O(n)</code> 时间复杂度的解法, 请尝试设计一个 <code>O(n log(n))</code> 时间复杂度的解法。</li>
+</ul>
+<p>在本题中实现滑动窗口，主要确定如下三点：</p>
+<ul>
+<li>窗口内是什么？</li>
+<li>如何移动窗口的起始位置？</li>
+<li>如何移动窗口的结束位置？</li>
+</ul>
+<p>窗口就是 满足其和 ≥ s 的长度最小的 连续 子数组。</p>
+<p>窗口的起始位置如何移动：如果当前窗口的值大于s了，窗口就要向前移动了（也就是该缩小了）。</p>
+<p>窗口的结束位置如何移动：窗口的结束位置就是遍历数组的指针，也就是for循环里的索引。</p>
+<p>解题的关键在于 窗口的起始位置如何移动，如图所示：</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/../images/%E7%AE%97%E6%B3%95%E7%AF%87-%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3/20210312160441942.png" alt="leetcode_209"></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 滑动窗口</span></span><br><span class="line"><span class="comment">     * */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">minSubArrayLen</span><span class="params">(<span class="type">int</span> target, <span class="type">int</span>[] nums)</span> &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">res</span> <span class="operator">=</span> Integer.MAX_VALUE; <span class="comment">// 记录最小的子数组长度</span></span><br><span class="line">        <span class="comment">//滑动窗口 for i遍历的是结束的位置 j是起始的位置</span></span><br><span class="line">        <span class="type">int</span> <span class="variable">j</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">        <span class="type">int</span> <span class="variable">sum</span> <span class="operator">=</span> <span class="number">0</span>;<span class="comment">//滑动窗口的大小</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; nums.length; i++) &#123;</span><br><span class="line">            sum += nums[i];</span><br><span class="line">            <span class="keyword">while</span> (sum &gt;= target) &#123; <span class="comment">//窗口的大小大于要求的值 起始位置向前 缩窗口</span></span><br><span class="line">                <span class="type">int</span> <span class="variable">subLength</span> <span class="operator">=</span> i - j + <span class="number">1</span>;</span><br><span class="line">                res = Math.min(subLength, res);</span><br><span class="line">                sum -= nums[j++];<span class="comment">//就相当于之前的和减去了起始位置的值 起始位置++</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (res == Integer.MAX_VALUE) &#123; <span class="comment">//数组中的和不大于target</span></span><br><span class="line">            <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        &#125;<span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> res;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="LC904-水果成篮"><a href="#LC904-水果成篮" class="headerlink" title="LC904. 水果成篮"></a>LC904. 水果成篮</h3><p>你正在探访一家农场，农场从左到右种植了一排果树。这些树用一个整数数组 <code>fruits</code> 表示，其中 <code>fruits[i]</code> 是第 <code>i</code> 棵树上的水果 <strong>种类</strong> 。</p>
+<p>你想要尽可能多地收集水果。然而，农场的主人设定了一些严格的规矩，你必须按照要求采摘水果：</p>
+<ul>
+<li>你只有 <strong>两个</strong> 篮子，并且每个篮子只能装 <strong>单一类型</strong> 的水果。每个篮子能够装的水果总量没有限制。</li>
+<li>你可以选择任意一棵树开始采摘，你必须从 <strong>每棵</strong> 树（包括开始采摘的树）上 <strong>恰好摘一个水果</strong> 。采摘的水果应当符合篮子中的水果类型。每采摘一次，你将会向右移动到下一棵树，并继续采摘。</li>
+<li>一旦你走到某棵树前，但水果不符合篮子的水果类型，那么就必须停止采摘。</li>
+</ul>
+<p>给你一个整数数组 <code>fruits</code> ，返回你可以收集的水果的 <strong>最大</strong> 数目。</p>
+<p><strong>示例 1：</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">输入：fruits = [1,2,1]</span><br><span class="line">输出：3</span><br><span class="line">解释：可以采摘全部 3 棵树。</span><br></pre></td></tr></table></figure>
+
+<p><strong>示例 2：</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">输入：fruits = [0,1,2,2]</span><br><span class="line">输出：3</span><br><span class="line">解释：可以采摘 [1,2,2] 这三棵树。</span><br><span class="line">如果从第一棵树开始采摘，则只能采摘 [0,1] 这两棵树。</span><br></pre></td></tr></table></figure>
+
+<p><strong>示例 3：</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">输入：fruits = [1,2,3,2,2]</span><br><span class="line">输出：4</span><br><span class="line">解释：可以采摘 [2,3,2,2] 这四棵树。</span><br><span class="line">如果从第一棵树开始采摘，则只能采摘 [1,2] 这两棵树。</span><br></pre></td></tr></table></figure>
+
+<p><strong>示例 4：</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">输入：fruits = [3,3,3,1,2,1,1,2,3,3,4]</span><br><span class="line">输出：5</span><br><span class="line">解释：可以采摘 [1,2,1,1,2] 这五棵树。</span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>提示：</strong></p>
+<ul>
+<li><code>1 &lt;= fruits.length &lt;= 105</code></li>
+<li><code>0 &lt;= fruits[i] &lt; fruits.length</code></li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 滑动窗口 + hashmap</span></span><br><span class="line"><span class="comment">     * */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">totalFruit</span><span class="params">(<span class="type">int</span>[] fruits)</span> &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">res</span> <span class="operator">=</span> <span class="number">1</span>;<span class="comment">//返回的最多收集个数</span></span><br><span class="line">        <span class="type">int</span> <span class="variable">j</span> <span class="operator">=</span> <span class="number">0</span>;<span class="comment">//起始位置</span></span><br><span class="line">        HashMap&lt;Integer, Integer&gt; map = <span class="keyword">new</span> <span class="title class_">HashMap</span>&lt;&gt;(<span class="number">3</span>);<span class="comment">//篮子</span></span><br><span class="line">        <span class="comment">//遍历终止位置i</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; fruits.length; i++) &#123;</span><br><span class="line">            map.put(fruits[i], map.getOrDefault(fruits[i], <span class="number">0</span>) + <span class="number">1</span>);<span class="comment">//利用map不含重复元素</span></span><br><span class="line">            <span class="keyword">while</span> (map.size() &gt; <span class="number">2</span>) &#123;<span class="comment">//当篮子数大于2时，缩短窗口</span></span><br><span class="line">                <span class="keyword">if</span> (map.get(fruits[j]) - <span class="number">1</span> == <span class="number">0</span>) &#123;</span><br><span class="line">                    map.remove(fruits[j]);</span><br><span class="line">                &#125;<span class="keyword">else</span> &#123;</span><br><span class="line">                    map.put(fruits[j], map.get(fruits[j]) - <span class="number">1</span>);</span><br><span class="line">                &#125;</span><br><span class="line">                j++;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="type">int</span> <span class="variable">subLength</span> <span class="operator">=</span> i - j + <span class="number">1</span>;</span><br><span class="line">            res = Math.max(res, subLength);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>宫水三叶（数组带替map）</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="type">int</span> <span class="title function_">totalFruit</span><span class="params">(<span class="type">int</span>[] fs)</span> &#123;</span><br><span class="line">    <span class="type">int</span> <span class="variable">len</span> <span class="operator">=</span> fs.length, res = <span class="number">0</span>;</span><br><span class="line">    <span class="comment">//cnts用来统计每种水果树的数量</span></span><br><span class="line">    <span class="type">int</span>[] cnts = <span class="keyword">new</span> <span class="title class_">int</span>[len + <span class="number">10</span>];</span><br><span class="line">    <span class="comment">//i是窗口的右边，j是左边，tot表示当前篮子里水果的种类（至多有两种水果），也表示窗口中的水果种类数量</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>, j = <span class="number">0</span>, tot = <span class="number">0</span>; i &lt; len; i++) &#123;</span><br><span class="line">        cnts[fs[i]]++;</span><br><span class="line">        <span class="keyword">if</span> (cnts[fs[i]] == <span class="number">1</span>) tot++;<span class="comment">//第一次出现 篮子的种类++</span></span><br><span class="line">        <span class="comment">//当种类数量大于2时，使窗口左侧收缩，并且除去对应的水果种类在cnts中的数量</span></span><br><span class="line">        <span class="comment">//当为0时则彻底在窗口中除去该种水果</span></span><br><span class="line">        <span class="keyword">while</span> (tot &gt; <span class="number">2</span>) &#123;</span><br><span class="line">            cnts[fs[j]]--;<span class="comment">//缩窗口</span></span><br><span class="line">            <span class="keyword">if</span> (cnts[fs[j]] == <span class="number">0</span>) tot--;<span class="comment">//篮子种类数--</span></span><br><span class="line">            j++;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//即时比较判断窗口中水果树的数量，经过前两步窗口中的东西一定是满足题义的</span></span><br><span class="line">        res = Math.max(res, i - j + <span class="number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="LC76-最小覆盖字串"><a href="#LC76-最小覆盖字串" class="headerlink" title="LC76. 最小覆盖字串"></a>LC76. 最小覆盖字串</h3><p>给你一个字符串 <code>s</code> 、一个字符串 <code>t</code> 。返回 <code>s</code> 中涵盖 <code>t</code> 所有字符的最小子串。如果 <code>s</code> 中不存在涵盖 <code>t</code> 所有字符的子串，则返回空字符串 <code>&quot;&quot;</code> 。</p>
+<p><strong>注意：</strong></p>
+<ul>
+<li>对于 <code>t</code> 中重复字符，我们寻找的子字符串中该字符数量必须不少于 <code>t</code> 中该字符数量。</li>
+<li>如果 <code>s</code> 中存在这样的子串，我们保证它是唯一的答案。</li>
+</ul>
+<p><strong>示例 1：</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">输入：s = &quot;ADOBECODEBANC&quot;, t = &quot;ABC&quot;</span><br><span class="line">输出：&quot;BANC&quot;</span><br></pre></td></tr></table></figure>
+
+<p><strong>示例 2：</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">输入：s = &quot;a&quot;, t = &quot;a&quot;</span><br><span class="line">输出：&quot;a&quot;</span><br></pre></td></tr></table></figure>
+
+<p><strong>示例 3:</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">输入: s = &quot;a&quot;, t = &quot;aa&quot;</span><br><span class="line">输出: &quot;&quot;</span><br><span class="line">解释: t 中两个字符 &#x27;a&#x27; 均应包含在 s 的子串中，</span><br><span class="line">因此没有符合条件的子字符串，返回空字符串。</span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>提示：</strong></p>
+<ul>
+<li><code>1 &lt;= s.length, t.length &lt;= 105</code></li>
+<li><code>s</code> 和 <code>t</code> 由英文字母组成</li>
+</ul>
+<p><strong>进阶：</strong>你能设计一个在 <code>o(n)</code> 时间内解决此问题的算法吗？</p>
+<p>Related Topics</p>
+<p>哈希表</p>
+<p>字符串</p>
+<p>滑动窗口</p>
+<p><strong>解法思路：</strong></p>
+<ol>
+<li>创建两个map，分别表示需要的字符sonMap及其个数和当前的字符(只统计子串含有的字符)matherMap及其个数。</li>
+<li>利用滑动窗口的思想，遍历右指针。</li>
+<li>右指针遍历过的字符如果有要匹配的字符，加到map中去。统计已经匹配字符的计数器。</li>
+<li>如果已经匹配上了，更新匹配的字串，把左指针开始右移，窗口收缩，更新matherMap的数据。</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> String <span class="title function_">minWindow</span><span class="params">(String s, String t)</span> &#123;</span><br><span class="line">    <span class="comment">//两个map,一个存放需要的字符，一个存放当前的字符</span></span><br><span class="line">    Map&lt;Character, Integer&gt; sonMap = <span class="keyword">new</span> <span class="title class_">HashMap</span>&lt;&gt;();</span><br><span class="line">    Map&lt;Character, Integer&gt; matherMap = <span class="keyword">new</span> <span class="title class_">HashMap</span>&lt;&gt;();</span><br><span class="line"></span><br><span class="line">    <span class="comment">//遍历匹配的字串</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; t.length(); i++) &#123;</span><br><span class="line">        <span class="type">char</span> <span class="variable">cur</span> <span class="operator">=</span> t.charAt(i);</span><br><span class="line">        sonMap.put(cur, sonMap.getOrDefault(cur, <span class="number">0</span>) + <span class="number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="type">int</span> <span class="variable">left</span> <span class="operator">=</span> <span class="number">0</span>;<span class="comment">//起始</span></span><br><span class="line">    <span class="type">int</span> <span class="variable">right</span> <span class="operator">=</span> <span class="number">0</span>;<span class="comment">//终止</span></span><br><span class="line">    <span class="type">int</span> <span class="variable">finishCount</span> <span class="operator">=</span> <span class="number">0</span>;<span class="comment">//计数器</span></span><br><span class="line">    <span class="type">String</span> <span class="variable">res</span> <span class="operator">=</span> <span class="string">&quot;&quot;</span>;</span><br><span class="line">    <span class="type">int</span> <span class="variable">minLen</span> <span class="operator">=</span> s.length();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> (right &lt; s.length()) &#123;</span><br><span class="line">        <span class="type">char</span> <span class="variable">cur</span> <span class="operator">=</span> s.charAt(right);</span><br><span class="line">        <span class="keyword">if</span> (sonMap.containsKey(cur)) &#123; <span class="comment">//字串中需要这个字符</span></span><br><span class="line">            matherMap.put(cur, matherMap.getOrDefault(cur, <span class="number">0</span>) + <span class="number">1</span>);</span><br><span class="line">            <span class="comment">// 两个Integer对象比较时，不能使用 == ，要使用equals，如果使用 == ，在[-128,127]范围内正常，范围外不正常 包装类的池化技术</span></span><br><span class="line">            <span class="keyword">if</span> (sonMap.get(cur).equals(matherMap.get(cur))) &#123; <span class="comment">//一项已经匹配了</span></span><br><span class="line">                finishCount++;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        right++;</span><br><span class="line">        <span class="comment">//计数器满足要求，缩小窗口</span></span><br><span class="line">        <span class="keyword">while</span> (finishCount == sonMap.size()) &#123;</span><br><span class="line">            <span class="type">char</span> <span class="variable">leftCur</span> <span class="operator">=</span> s.charAt(left);</span><br><span class="line">            <span class="keyword">if</span> (matherMap.containsKey(leftCur) &amp;&amp; matherMap.get(leftCur) &gt;= sonMap.get(leftCur)) &#123;</span><br><span class="line">                <span class="comment">//记录满足条件的最小字串</span></span><br><span class="line">                <span class="type">String</span> <span class="variable">temp</span> <span class="operator">=</span> s.substring(left, right);</span><br><span class="line">                <span class="keyword">if</span> (temp.length() &lt;= minLen) &#123;</span><br><span class="line">                    res = temp;</span><br><span class="line">                    minLen = temp.length();</span><br><span class="line">                &#125;</span><br><span class="line">                matherMap.put(leftCur, matherMap.get(leftCur) - <span class="number">1</span>);</span><br><span class="line">                <span class="keyword">if</span> (sonMap.get(leftCur) &gt; matherMap.get(leftCur)) &#123;</span><br><span class="line">                    finishCount--;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            left++;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="LC3-无重复字符的最长子串"><a href="#LC3-无重复字符的最长子串" class="headerlink" title="LC3. 无重复字符的最长子串"></a>LC3. 无重复字符的最长子串</h3><p>给定一个字符串 <code>s</code> ，请你找出其中不含有重复字符的 <strong>最长子串</strong> 的长度。</p>
+<p><strong>示例 1:</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">输入: s = &quot;abcabcbb&quot;</span><br><span class="line">输出: 3 </span><br><span class="line">解释: 因为无重复字符的最长子串是 &quot;abc&quot;，所以其长度为 3。</span><br></pre></td></tr></table></figure>
+
+<p><strong>示例 2:</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">输入: s = &quot;bbbbb&quot;</span><br><span class="line">输出: 1</span><br><span class="line">解释: 因为无重复字符的最长子串是 &quot;b&quot;，所以其长度为 1。</span><br></pre></td></tr></table></figure>
+
+<p><strong>示例 3:</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">输入: s = &quot;pwwkew&quot;</span><br><span class="line">输出: 3</span><br><span class="line">解释: 因为无重复字符的最长子串是 &quot;wke&quot;，所以其长度为 3。</span><br><span class="line">     请注意，你的答案必须是 子串 的长度，&quot;pwke&quot; 是一个子序列，不是子串。</span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>提示：</strong></p>
+<ul>
+<li><code>0 &lt;= s.length &lt;= 5 * 104</code></li>
+<li><code>s</code> 由英文字母、数字、符号和空格组成</li>
+</ul>
+<p>Related Topics</p>
+<p>哈希表</p>
+<p>字符串</p>
+<p>滑动窗口</p>
+<p>👍 8536</p>
+<p>👎 0</p>
+<p><strong>解题思路</strong>：</p>
+<p>因为要找到不重复的字符最大长度，在窗口进行伸缩的判断中，有可能窗口里的元素与要扩字符的值相同，因此采用哈希表进行记录。哈希表记录的是字符与下标的对应关系，当遍历到一个新字符，就把他加入到哈希表中；当遍历到一个存在的字符，就对窗口的左边界进行收缩，并且更新字符对应的下标位置。</p>
+<p><strong>算法流程</strong>：</p>
+<ol>
+<li><p>首先，判断当前字符是否包含在map中，如果不包含，将该字符添加到map（字符，字符在数组下标）, 此时没有出现重复的字符，左指针不需要变化。此时不重复子串的长度为：i - left + 1，与原来的 maxLen 比较，取最大值；</p>
+</li>
+<li><p>如果当前字符 ch 包含在 map中，此时有2类情况：</p>
+<ol>
+<li>当前字符包含在当前有效的子段中，如：abca，当我们遍历到第二个a，当前有效最长子段是 abc，我们又遍历到a，那么此时更新 left 为 map.get(a)+1&#x3D;1，当前有效子段更新为 bca；</li>
+<li>当前字符不包含在当前最长有效子段中，如：abba，我们先添加a,b进map，此时left&#x3D;0，我们再添加b，发现map中包含b，而且b包含在最长有效子段中，就是1）的情况，我们更新 left&#x3D;map.get(b)+1&#x3D;2，此时子段更新为 b，而且map中仍然包含a，map.get(a)&#x3D;0；随后，我们遍历到a，发现a包含在map中，且map.get(a)&#x3D;0，如果我们像1）一样处理，就会发现 left&#x3D;map.get(a)+1&#x3D;1，实际上，left此时应该不变，left始终为2，子段变成 ba才对。</li>
+</ol>
+</li>
+</ol>
+<p>为了处理以上2类情况，我们每次更新left，left&#x3D;Math.max(left , map.get(ch)+1).<br>另外，更新left后，不管原来的 s.charAt(i) 是否在最长子段中，我们都要将 s.charAt(i) 的位置更新为当前的i，<br>因此此时新的 s.charAt(i) 已经进入到 当前最长的子段中！</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="type">int</span> <span class="title function_">lengthOfLongestSubstring</span><span class="params">(String s)</span> &#123;</span><br><span class="line">        HashMap&lt;Character, Integer&gt; map = <span class="keyword">new</span> <span class="title class_">HashMap</span>&lt;&gt;();</span><br><span class="line">        <span class="type">int</span> <span class="variable">maxLen</span> <span class="operator">=</span> <span class="number">0</span>;<span class="comment">//用于记录最大不重复子串的长度</span></span><br><span class="line">        <span class="type">int</span> <span class="variable">left</span> <span class="operator">=</span> <span class="number">0</span>;<span class="comment">//滑动窗口左指针</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; s.length() ; i++) &#123;</span><br><span class="line">            <span class="keyword">if</span>(map.containsKey(s.charAt(i))) &#123;</span><br><span class="line">                left = Math.max(left , map.get(s.charAt(i))+<span class="number">1</span>);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="comment">//不管是否更新left，都要更新 s.charAt(i) 的位置！</span></span><br><span class="line">            map.put(s.charAt(i) , i);</span><br><span class="line">            maxLen = Math.max(maxLen , i-left+<span class="number">1</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">return</span> maxLen;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="LC239-滑动窗口最大值"><a href="#LC239-滑动窗口最大值" class="headerlink" title="LC239. 滑动窗口最大值"></a>LC239. 滑动窗口最大值</h3><p>给你一个整数数组 <code>nums</code>，有一个大小为 <code>k</code> 的滑动窗口从数组的最左侧移动到数组的最右侧。你只可以看到在滑动窗口内的 <code>k</code> 个数字。滑动窗口每次只向右移动一位。</p>
+<p>返回 <em>滑动窗口中的最大值</em> 。</p>
+<p><strong>示例 1：</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">输入：nums = [1,3,-1,-3,5,3,6,7], k = 3</span><br><span class="line">输出：[3,3,5,5,6,7]</span><br><span class="line">解释：</span><br><span class="line">滑动窗口的位置                最大值</span><br><span class="line">---------------               -----</span><br><span class="line">[1  3  -1] -3  5  3  6  7       3</span><br><span class="line"> 1 [3  -1  -3] 5  3  6  7       3</span><br><span class="line"> 1  3 [-1  -3  5] 3  6  7       5</span><br><span class="line"> 1  3  -1 [-3  5  3] 6  7       5</span><br><span class="line"> 1  3  -1  -3 [5  3  6] 7       6</span><br><span class="line"> 1  3  -1  -3  5 [3  6  7]      7</span><br></pre></td></tr></table></figure>
+
+<p><strong>示例 2：</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">输入：nums = [1], k = 1</span><br><span class="line">输出：[1]</span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>提示：</strong></p>
+<ul>
+<li><code>1 &lt;= nums.length &lt;= 105</code></li>
+<li><code>-104 &lt;= nums[i] &lt;= 104</code></li>
+<li><code>1 &lt;= k &lt;= nums.length</code></li>
+</ul>
+<p>Related Topics</p>
+<p>队列</p>
+<p>数组</p>
+<p>滑动窗口</p>
+<p>单调队列</p>
+<p>堆（优先队列）</p>
+<p>👍 2102</p>
+<p>👎 0</p>
+<h4 id="解法一：单调队列"><a href="#解法一：单调队列" class="headerlink" title="解法一：单调队列"></a>解法一：单调队列</h4><p>维护一个单调队列，队列中保存对应的数组下标位置，并且数组中的数要从大到小排序。如果当前遍历的数比队尾的值大，则需要弹出队尾值，直到队列重新满足从大到小的要求。刚开始遍历时，L 和 R 都为 0，有一个形成窗口的过程，此过程没有最大值，L 不动，R 向右移。当窗口大小形成时，L 和 R 一起向右移，每次移动时，判断队首的值的数组下标是否在 <code>[L,R]</code> 中，如果不在则需要弹出队首的值，当前窗口的最大值即为队首的数。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">输入: nums = [1,3,-1,-3,5,3,6,7], 和 k = 3</span><br><span class="line">输出: [3,3,5,5,6,7]</span><br><span class="line"></span><br><span class="line">解释过程中队列中都是具体的值，方便理解，具体见代码。</span><br><span class="line">初始状态：L=R=0,队列:&#123;&#125;</span><br><span class="line">i=0,nums[0]=1。队列为空,直接加入。队列：&#123;1&#125;</span><br><span class="line">i=1,nums[1]=3。队尾值为1，3&gt;1，弹出队尾值，加入3。队列：&#123;3&#125;</span><br><span class="line">i=2,nums[2]=-1。队尾值为3，-1&lt;3，直接加入。队列：&#123;3,-1&#125;。此时窗口已经形成，L=0,R=2，result=[3]</span><br><span class="line">i=3,nums[3]=-3。队尾值为-1，-3&lt;-1，直接加入。队列：&#123;3,-1,-3&#125;。队首3对应的下标为1，L=1,R=3，有效。result=[3,3]</span><br><span class="line">i=4,nums[4]=5。队尾值为-3，5&gt;-3，依次弹出后加入。队列：&#123;5&#125;。此时L=2,R=4，有效。result=[3,3,5]</span><br><span class="line">i=5,nums[5]=3。队尾值为5，3&lt;5，直接加入。队列：&#123;5,3&#125;。此时L=3,R=5，有效。result=[3,3,5,5]</span><br><span class="line">i=6,nums[6]=6。队尾值为3，6&gt;3，依次弹出后加入。队列：&#123;6&#125;。此时L=4,R=6，有效。result=[3,3,5,5,6]</span><br><span class="line">i=7,nums[7]=7。队尾值为6，7&gt;6，弹出队尾值后加入。队列：&#123;7&#125;。此时L=5,R=7，有效。result=[3,3,5,5,6,7]</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span>[] maxSlidingWindow(<span class="type">int</span>[] nums, <span class="type">int</span> k) &#123;</span><br><span class="line">        <span class="comment">// 双向队列 保存当前窗口最大值的数组位置 保证队列中数组位置的数值按从大到小排序</span></span><br><span class="line">        Deque&lt;Integer&gt; queue = <span class="keyword">new</span> <span class="title class_">LinkedList</span>&lt;&gt;();</span><br><span class="line">        <span class="comment">// 结果数组</span></span><br><span class="line">        <span class="type">int</span>[] result = <span class="keyword">new</span> <span class="title class_">int</span>[nums.length-k+<span class="number">1</span>];</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; nums.length; i++) &#123;</span><br><span class="line">            <span class="comment">// 保证从大到小 如果前面数小则需要依次弹出，直至满足要求</span></span><br><span class="line">            <span class="keyword">while</span>(!queue.isEmpty() &amp;&amp; nums[queue.peekLast()] &lt;= nums[i])&#123;</span><br><span class="line">                queue.pollLast();</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="comment">// 添加当前值对应的数组下标</span></span><br><span class="line">            queue.addLast(i);</span><br><span class="line">            <span class="comment">// 判断当前队列中队首的值是否有效</span></span><br><span class="line">            <span class="keyword">if</span>(queue.peek() &lt;= i-k)&#123;</span><br><span class="line">                queue.poll();</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="comment">// 当窗口长度为k时 保存当前窗口中最大值</span></span><br><span class="line">            <span class="keyword">if</span>(i+<span class="number">1</span> &gt;= k)&#123;</span><br><span class="line">                result[i+<span class="number">1</span>-k] = nums[queue.peek()];</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> result;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>复杂度分析</strong></p>
+<ul>
+<li>时间复杂度：O*(*n)，其中 n 是数组 nums 的长度。</li>
+<li>空间复杂度：O*(*k),滑动窗口只保存了最多 k 个数。</li>
+</ul>
+<h3 id="LC76-最小覆盖子串"><a href="#LC76-最小覆盖子串" class="headerlink" title="LC76. 最小覆盖子串"></a>LC76. 最小覆盖子串</h3><p>给你一个字符串 <code>s</code> 、一个字符串 <code>t</code> 。返回 <code>s</code> 中涵盖 <code>t</code> 所有字符的最小子串。如果 <code>s</code> 中不存在涵盖 <code>t</code> 所有字符的子串，则返回空字符串 <code>&quot;&quot;</code> 。</p>
+<p><strong>注意：</strong></p>
+<ul>
+<li>对于 <code>t</code> 中重复字符，我们寻找的子字符串中该字符数量必须不少于 <code>t</code> 中该字符数量。</li>
+<li>如果 <code>s</code> 中存在这样的子串，我们保证它是唯一的答案。</li>
+</ul>
+<p><strong>示例 1：</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">输入：s = &quot;ADOBECODEBANC&quot;, t = &quot;ABC&quot;</span><br><span class="line">输出：&quot;BANC&quot;</span><br></pre></td></tr></table></figure>
+
+<p><strong>示例 2：</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">输入：s = &quot;a&quot;, t = &quot;a&quot;</span><br><span class="line">输出：&quot;a&quot;</span><br></pre></td></tr></table></figure>
+
+<p><strong>示例 3:</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">输入: s = &quot;a&quot;, t = &quot;aa&quot;</span><br><span class="line">输出: &quot;&quot;</span><br><span class="line">解释: t 中两个字符 &#x27;a&#x27; 均应包含在 s 的子串中，</span><br><span class="line">因此没有符合条件的子字符串，返回空字符串。</span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>提示：</strong></p>
+<ul>
+<li><code>1 &lt;= s.length, t.length &lt;= 105</code></li>
+<li><code>s</code> 和 <code>t</code> 由英文字母组成</li>
+</ul>
+<p><strong>进阶：</strong>你能设计一个在 <code>o(n)</code> 时间内解决此问题的算法吗？</p>
+<p>Related Topics</p>
+<p>哈希表</p>
+<p>字符串</p>
+<p>滑动窗口</p>
+<h4 id="方法一：滑动窗口"><a href="#方法一：滑动窗口" class="headerlink" title="方法一：滑动窗口"></a>方法一：滑动窗口</h4><p>这道题要求我们返回字符串<code> s</code>中包含字符串 <code>t</code> 的全部字符的最小窗口，我们利用滑动窗口的思想解决这个问题。因此我们需要两个哈希表，<code>hs</code>哈希表维护的是<code>s</code>字符串中滑动窗口中各个字符出现多少次，<code>ht</code>哈希表维护的是<code>t</code>字符串各个字符出现多少次。如果<code>hs</code>哈希表中包含<code>ht</code>哈希表中的所有字符，并且对应的个数都不小于<code>ht</code>哈希表中各个字符的个数，那么说明当前的窗口是<strong>可行</strong>的，可行中的长度最短的滑动窗口就是答案。</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/../images/%E7%AE%97%E6%B3%95%E7%AF%87-%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3/1627392480-ABjwBs-image.png" alt="image.png"></p>
+<p><strong>过程如下：</strong></p>
+<p>1、遍历<code>t</code>字符串，用<code>ht</code>哈希表记录<code>t</code>字符串各个字符出现的次数。</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/../images/%E7%AE%97%E6%B3%95%E7%AF%87-%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3/1626094551-vODlam-file_1626094550107.png" alt="&lt;img src=&quot;力扣500题刷题笔记.assets/image-20210710122600263.png&quot; alt=&quot;image-20210710122600263&quot; style=&quot;zoom:67%;&quot; /&gt;"></p>
+<p>2、定义两个指针<code>j</code>和<code>i</code>，<code>j</code>指针用于收缩窗口，<code>i</code>指针用于延伸窗口，则区间<code>[j,i]</code>表示当前滑动窗口。首先让<code>i</code>和<code>j</code>指针都指向字符串<code>s</code>开头，然后枚举整个字符串<code>s</code> ，枚举过程中，不断增加<code>i</code>使滑动窗口增大，相当于向右扩展滑动窗口。</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/../images/%E7%AE%97%E6%B3%95%E7%AF%87-%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3/1626094551-FNKtMc-file_1626094550122.png" alt="&lt;img src=&quot;力扣500题刷题笔记.assets/image-20210710121027770.png&quot; alt=&quot;image-20210710121027770&quot; style=&quot;zoom:67%;&quot; /&gt;"></p>
+<p>3、每次向右扩展滑动窗口一步，将<code>s[i]</code>加入滑动窗口中，而新加入了<code>s[i]</code>，相当于滑动窗口维护的字符数加一，即<code>hs[s[i]]++</code>。</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/../images/%E7%AE%97%E6%B3%95%E7%AF%87-%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3/1626094551-RbOYEW-file_1626094550125.png" alt="&lt;img src=&quot;力扣500题刷题笔记.assets/image-20210710122648338.png&quot; alt=&quot;image-20210710122648338&quot; style=&quot;zoom: 67%;&quot; /&gt;"></p>
+<p>4、对于新加入的字符<code>s[i]</code>,如果<code>hs[s[i]] &lt;= ht[s[i]]</code>，说明当前新加入的字符<code>s[i]</code>是必需的，且还未到达字符串<code>t</code>所要求的数量。我们还需要事先定义一个<code>cnt</code>变量， <code>cnt</code>维护的是<code>s</code>字符串<code>[j,i]</code>区间中满足<code>t</code>字符串的元素的个数，记录相对应字符的总数。新加入的字符<code>s[i]</code>必需，则<code>cnt++</code>。</p>
+<p>5、我们向右扩展滑动窗口的同时也不能忘记收缩滑动窗口。因此当<code>hs[s[j]] &gt; ht[s[j]</code>时，说明<code>hs</code>哈希表中<code>s[j]</code>的数量多于<code>ht</code>哈希表中<code>s[j]</code>的数量，此时我们就需要向右收缩滑动窗口，<code>j++</code>并使<code>hs[s[j]]--</code>，即<code>hs[s[j ++ ]] --</code>。</p>
+<p>6、当<code>cnt == t.size</code>时，说明此时滑动窗口包含符串 <code>t</code> 的全部字符。我们重复上述过程找到最小窗口即为答案。</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/../images/%E7%AE%97%E6%B3%95%E7%AF%87-%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3/1627392545-pNYyEm-image.png" alt="image.png"></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">minWindow</span><span class="params">(String s, String t)</span> &#123;</span><br><span class="line">        HashMap&lt;Character, Integer&gt; hs = <span class="keyword">new</span> <span class="title class_">HashMap</span>&lt;&gt;(); <span class="comment">// 维护s串中滑动窗口中各个字符出现次数</span></span><br><span class="line">        Map&lt;Character, Integer&gt; ht = <span class="keyword">new</span> <span class="title class_">HashMap</span>&lt;&gt;(); <span class="comment">// 维护t串中各个字符出现次数</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">// 存入 t</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; t.length(); i++) &#123;</span><br><span class="line">            <span class="type">char</span> <span class="variable">c</span> <span class="operator">=</span> t.charAt(i);</span><br><span class="line">            ht.put(c, ht.getOrDefault(c, <span class="number">0</span>) + <span class="number">1</span>);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 滑动窗口遍历 s</span></span><br><span class="line">        <span class="type">int</span> <span class="variable">len</span> <span class="operator">=</span> Integer.MAX_VALUE, cnt = <span class="number">0</span>; <span class="comment">// cnt维护s串[left,right]中满足t串的元素的个数，记录相对应字符的总数</span></span><br><span class="line">        <span class="type">String</span> <span class="variable">res</span> <span class="operator">=</span> <span class="string">&quot;&quot;</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">left</span> <span class="operator">=</span> <span class="number">0</span>, right = <span class="number">0</span>; right &lt; s.length(); right++) &#123;</span><br><span class="line">            <span class="type">char</span> <span class="variable">r</span> <span class="operator">=</span> s.charAt(right);</span><br><span class="line">            hs.put(r, hs.getOrDefault(r, <span class="number">0</span>) + <span class="number">1</span>);</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (ht.containsKey(r)) &#123;</span><br><span class="line">                <span class="comment">// hs表中的字符个数&lt;=ht表中的字符个数,说明该字符是必须的，并且还未到达字符串t所要求的数量</span></span><br><span class="line">                <span class="keyword">if</span> (ht.get(r) &gt;= hs.get(r)) &#123;</span><br><span class="line">                    cnt++;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="comment">// 收缩滑动窗口</span></span><br><span class="line">            <span class="comment">// 如果左边界的值不在ht表中 或者 它在hs表中的出现次数多于ht表中的出现次数</span></span><br><span class="line">            <span class="type">char</span> <span class="variable">l</span> <span class="operator">=</span> s.charAt(left);</span><br><span class="line">            <span class="keyword">while</span> (left &lt; right &amp;&amp; (!ht.containsKey(l) || hs.get(l) &gt; ht.get(l))) &#123;</span><br><span class="line">                hs.put(l, hs.get(l) - <span class="number">1</span>);</span><br><span class="line">                left++;</span><br><span class="line">                l = s.charAt(left);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="comment">// 此时滑动窗口就是 t 的全部字符</span></span><br><span class="line">            <span class="keyword">if</span> (cnt == t.length() &amp;&amp; right- left + <span class="number">1</span> &lt; len) &#123;</span><br><span class="line">                len = right - left + <span class="number">1</span>;</span><br><span class="line">                res = s.substring(left, right + <span class="number">1</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>复杂度分析</strong>：</p>
+<ul>
+<li>时间复杂度O(N)</li>
+<li>空间复杂度O(N)</li>
+</ul>
+<h3 id="LC1004-最大连续1的个数-III"><a href="#LC1004-最大连续1的个数-III" class="headerlink" title="LC1004. 最大连续1的个数 III"></a>LC1004. 最大连续1的个数 III</h3><p>给定一个二进制数组 <code>nums</code> 和一个整数 <code>k</code>，如果可以翻转最多 <code>k</code> 个 <code>0</code> ，则返回 <em>数组中连续 <code>1</code> 的最大个数</em> 。</p>
+<p><strong>示例 1：</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">输入：nums = [1,1,1,0,0,0,1,1,1,1,0], K = 2</span><br><span class="line">输出：6</span><br><span class="line">解释：[1,1,1,0,0,1,1,1,1,1,1]</span><br><span class="line">粗体数字从 0 翻转到 1，最长的子数组长度为 6。</span><br></pre></td></tr></table></figure>
+
+<p><strong>示例 2：</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">输入：nums = [0,0,1,1,0,0,1,1,1,0,1,1,0,0,0,1,1,1,1], K = 3</span><br><span class="line">输出：10</span><br><span class="line">解释：[0,0,1,1,1,1,1,1,1,1,1,1,0,0,0,1,1,1,1]</span><br><span class="line">粗体数字从 0 翻转到 1，最长的子数组长度为 10。</span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>提示：</strong></p>
+<ul>
+<li><code>1 &lt;= nums.length &lt;= 105</code></li>
+<li><code>nums[i]</code> 不是 <code>0</code> 就是 <code>1</code></li>
+<li><code>0 &lt;= k &lt;= nums.length</code></li>
+</ul>
+<p>Related Topics</p>
+<p>数组</p>
+<p>二分查找</p>
+<p>前缀和</p>
+<p>滑动窗口</p>
+<p>👍 530</p>
+<p>👎 0</p>
+<p><strong>解题思路</strong></p>
+<p><strong>重点：题意转换。把「最多可以把 K 个 0 变成 1，求仅包含 1 的最长子数组的长度」转换为 「找出一个最长的子数组，该子数组内最多允许有 K 个 0 」。</strong></p>
+<p>经过上面的题意转换，我们可知本题是求最大连续子区间，可以使用<strong>滑动窗口</strong>方法。滑动窗口的限制条件是：窗口内最多有 K 个 0。</p>
+<p>可以使用我多次分享的滑动窗口模板解决，模板在代码之后。</p>
+<p>代码思路：</p>
+<ul>
+<li>使用 left 和 right 两个指针，分别指向滑动窗口的左右边界。</li>
+<li>right <strong>主动</strong>右移：right 指针每次移动一步。当 nums[right] 为 0，说明滑动窗口内增加了一个 0；</li>
+<li>left <strong>被动</strong>右移：判断此时窗口内 00 的个数，如果超过了 <em>K</em>，则 left 指针被迫右移，直至窗口内的 0 的个数小于等于 <em>K</em> 为止。</li>
+<li>滑动窗口长度的最大值就是所求。</li>
+</ul>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/../images/%E7%AE%97%E6%B3%95%E7%AF%87-%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3/1613703526-DmKSCr-1004.gif" alt="1004.gif"></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">longestOnes</span><span class="params">(<span class="type">int</span>[] nums, <span class="type">int</span> k)</span> &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">left</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">        <span class="type">int</span> <span class="variable">zeroNum</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">        <span class="type">int</span> <span class="variable">res</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">right</span> <span class="operator">=</span> <span class="number">0</span>; right &lt; nums.length; right++) &#123;</span><br><span class="line">            <span class="keyword">if</span> (nums[right] == <span class="number">0</span>) &#123; </span><br><span class="line">                zeroNum++;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">while</span> (zeroNum &gt; k) &#123;</span><br><span class="line">                <span class="keyword">if</span> (nums[left] == <span class="number">0</span>) &#123;</span><br><span class="line">                    zeroNum--;</span><br><span class="line">                &#125;</span><br><span class="line">                left++;</span><br><span class="line">            &#125;</span><br><span class="line">            res = Math.max(res, right - left + <span class="number">1</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="LC395-至少有-K-个重复字符的最长子串"><a href="#LC395-至少有-K-个重复字符的最长子串" class="headerlink" title="LC395. 至少有 K 个重复字符的最长子串"></a>LC395. 至少有 K 个重复字符的最长子串</h3><h4 id="方法一：递归"><a href="#方法一：递归" class="headerlink" title="方法一：递归"></a>方法一：递归</h4><ol>
+<li><strong>递归函数的含义</strong>：<code>longestSubstring(s, k)</code> 函数表示的就是题意，即求一个最长的子字符串的长度，该子字符串中每个字符出现的次数都最少为 <em>k</em>。函数入参 s 是表示源字符串；k*是限制条件，即子字符串中每个字符最少出现的次数；函数返回结果是满足题意的最长子字符串长度。</li>
+<li><strong>递归的终止条件（base case）</strong>：如果字符串 s 的长度少于 k，那么一定不存在满足题意的子字符串，返回 0；</li>
+<li><strong>调用递归（重点）</strong>：如果一个字符 c 在 s 中出现的次数少于 k 次，那么 s 中所有的包含 c 的子字符串都不能满足题意。所以，应该在 s 的所有不包含 c 的子字符串中继续寻找结果：把 s 按照 c 切串，，得到很多子字符串 t；<strong>下一步要求 t 作为源字符串的时候，它的最长的满足题意的子字符串长度</strong></li>
+<li><strong>未进入递归时的返回结果</strong>：如果 s 中的每个字符出现的次数都大于 k 次，那么 s 就是我们要求的字符串，直接返回该字符串的长度。</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">longestSubstring</span><span class="params">(String s, <span class="type">int</span> k)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (s.length() &lt; k) &#123; <span class="comment">// base case</span></span><br><span class="line">            <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        Map&lt;Character, Integer&gt; map = <span class="keyword">new</span> <span class="title class_">HashMap</span>&lt;&gt;();</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; s.length(); i++) &#123;</span><br><span class="line">            map.put(s.charAt(i), map.getOrDefault(s.charAt(i), <span class="number">0</span>) + <span class="number">1</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">char</span> c : map.keySet()) &#123;</span><br><span class="line">            <span class="keyword">if</span> (map.get(c) &lt; k) &#123; <span class="comment">// 存在不满足k个字符</span></span><br><span class="line">                <span class="type">int</span> <span class="variable">res</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">                <span class="keyword">for</span> (String t : s.split(String.valueOf(c))) &#123; <span class="comment">// 切串，递归</span></span><br><span class="line">                    res = Math.max(res, longestSubstring(t, k));</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">return</span> res;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> s.length(); <span class="comment">// 反之，返回串的长度</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<blockquote>
+<p>参考</p>
+<ul>
+<li>代码随想录</li>
+<li>力扣 负雪明烛</li>
+</ul>
+</blockquote>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="http://www.haungrd.top">Huang RD</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://www.haungrd.top/2023/04/11/%E7%AE%97%E6%B3%95%E7%AF%87-%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3/">http://www.haungrd.top/2023/04/11/%E7%AE%97%E6%B3%95%E7%AF%87-%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://www.haungrd.top" target="_blank">Huang Blog</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Java/">Java</a><a class="post-meta__tags" href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/">计算机基础</a><a class="post-meta__tags" href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">数据结构</a><a class="post-meta__tags" href="/tags/%E7%AE%97%E6%B3%95/">算法</a><a class="post-meta__tags" href="/tags/%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3/">滑动窗口</a><a class="post-meta__tags" href="/tags/%E6%95%B0%E7%BB%84/">数组</a></div><div class="post_share"><div class="social-share" data-image="https://www.huangrd.top/images/agentina/5.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2023/04/13/%E7%AE%97%E6%B3%95%E7%AF%87-%E6%8E%92%E5%BA%8F/"><img class="prev-cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://www.huangrd.top/images/agentina/11.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">算法篇-排序</div></div></a></div><div class="next-post pull-right"><a href="/2023/04/11/%E7%AE%97%E6%B3%95%E7%AF%87-%E5%8F%8C%E6%8C%87%E9%92%88/"><img class="next-cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://www.huangrd.top/images/agentina/4.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">算法篇-双指针</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2023/04/11/%E7%AE%97%E6%B3%95%E7%AF%87-%E5%8F%8C%E6%8C%87%E9%92%88/" title="算法篇-双指针"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://www.huangrd.top/images/agentina/4.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-04-11</div><div class="title">算法篇-双指针</div></div></a></div><div><a href="/2023/04/13/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E7%AF%87-%E9%AB%98%E7%BA%A7%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" title="数据结构篇-高级数据结构"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://www.huangrd.top/images/agentina/5.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-04-13</div><div class="title">数据结构篇-高级数据结构</div></div></a></div><div><a href="/2023/04/10/%E7%AE%97%E6%B3%95%E7%AF%87-%E4%BA%8C%E5%88%86%E6%90%9C%E7%B4%A2/" title="算法篇-二分搜索"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://www.huangrd.top/images/agentina/5.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-04-10</div><div class="title">算法篇-二分搜索</div></div></a></div><div><a href="/2023/04/13/%E7%AE%97%E6%B3%95%E7%AF%87-%E6%8E%92%E5%BA%8F/" title="算法篇-排序"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://www.huangrd.top/images/agentina/11.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-04-13</div><div class="title">算法篇-排序</div></div></a></div><div><a href="/2023/02/11/%E7%AE%97%E6%B3%95%E6%80%BB%E7%BB%93/" title="算法总结"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://www.huangrd.top/images/agentina/4.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-02-11</div><div class="title">算法总结</div></div></a></div><div><a href="/2022/11/22/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%AE%9E%E9%AA%8C/" title="数据结构实验"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://www.huangrd.top/images/agentina/8.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-11-22</div><div class="title">数据结构实验</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content is-expand"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3"><span class="toc-text">滑动窗口</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A6%82%E8%BF%B0"><span class="toc-text">概述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8A%9B%E6%89%A3"><span class="toc-text">力扣</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#LC209-%E9%95%BF%E5%BA%A6%E6%9C%80%E5%B0%8F%E7%9A%84%E5%AD%90%E6%95%B0%E7%BB%84"><span class="toc-text">LC209. 长度最小的子数组</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#LC904-%E6%B0%B4%E6%9E%9C%E6%88%90%E7%AF%AE"><span class="toc-text">LC904. 水果成篮</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#LC76-%E6%9C%80%E5%B0%8F%E8%A6%86%E7%9B%96%E5%AD%97%E4%B8%B2"><span class="toc-text">LC76. 最小覆盖字串</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#LC3-%E6%97%A0%E9%87%8D%E5%A4%8D%E5%AD%97%E7%AC%A6%E7%9A%84%E6%9C%80%E9%95%BF%E5%AD%90%E4%B8%B2"><span class="toc-text">LC3. 无重复字符的最长子串</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#LC239-%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3%E6%9C%80%E5%A4%A7%E5%80%BC"><span class="toc-text">LC239. 滑动窗口最大值</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%A7%A3%E6%B3%95%E4%B8%80%EF%BC%9A%E5%8D%95%E8%B0%83%E9%98%9F%E5%88%97"><span class="toc-text">解法一：单调队列</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#LC76-%E6%9C%80%E5%B0%8F%E8%A6%86%E7%9B%96%E5%AD%90%E4%B8%B2"><span class="toc-text">LC76. 最小覆盖子串</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%96%B9%E6%B3%95%E4%B8%80%EF%BC%9A%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3"><span class="toc-text">方法一：滑动窗口</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#LC1004-%E6%9C%80%E5%A4%A7%E8%BF%9E%E7%BB%AD1%E7%9A%84%E4%B8%AA%E6%95%B0-III"><span class="toc-text">LC1004. 最大连续1的个数 III</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#LC395-%E8%87%B3%E5%B0%91%E6%9C%89-K-%E4%B8%AA%E9%87%8D%E5%A4%8D%E5%AD%97%E7%AC%A6%E7%9A%84%E6%9C%80%E9%95%BF%E5%AD%90%E4%B8%B2"><span class="toc-text">LC395. 至少有 K 个重复字符的最长子串</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%96%B9%E6%B3%95%E4%B8%80%EF%BC%9A%E9%80%92%E5%BD%92"><span class="toc-text">方法一：递归</span></a></li></ol></li></ol></li></ol></li></ol></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2022 - 2023 By Huang RD</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="translateLink" type="button" title="简繁转换">简</button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div></div></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page/instantpage.min.js" type="module"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload/dist/lazyload.iife.min.js"></script><script src="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.js"></script><script>function panguFn () {
+  if (typeof pangu === 'object') pangu.autoSpacingPage()
+  else {
+    getScript('https://cdn.jsdelivr.net/npm/pangu/dist/browser/pangu.min.js')
+      .then(() => {
+        pangu.autoSpacingPage()
+      })
+  }
+}
+
+function panguInit () {
+  if (false){
+    GLOBAL_CONFIG_SITE.isPost && panguFn()
+  } else {
+    panguFn()
+  }
+}
+
+document.addEventListener('DOMContentLoaded', panguInit)</script><script src="/js/search/local-search.js"></script><div class="js-pjax"></div><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="30" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/canvas-nest.min.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
