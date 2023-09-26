@@ -1,0 +1,272 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>延迟队列如何实现 | Huang Blog</title><meta name="author" content="Huang RD"><meta name="copyright" content="Huang RD"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="ffffff"><meta name="description" content="延迟队列如何实现概述延迟队列是一种用于处理需要在未来某个特定时间点或时间间隔后执行的任务或事件的机制。它是消息队列或任务调度的一种变体，具有以下基本特征：  延迟执行：延迟队列允许您将任务或消息设置为在一定的延迟时间之后执行。这个延迟可以是秒、分钟、小时甚至更长的时间。  调度：延迟队列会在设定的延迟时间到达时自动触发任务的执行，而不需要人工干预。这样可以实现定时执行任务的需求。  可靠性：一旦任">
+<meta property="og:type" content="article">
+<meta property="og:title" content="延迟队列如何实现">
+<meta property="og:url" content="http://www.haungrd.top/2023/09/24/%E5%BB%B6%E8%BF%9F%E9%98%9F%E5%88%97%E5%AE%9E%E7%8E%B0/index.html">
+<meta property="og:site_name" content="Huang Blog">
+<meta property="og:description" content="延迟队列如何实现概述延迟队列是一种用于处理需要在未来某个特定时间点或时间间隔后执行的任务或事件的机制。它是消息队列或任务调度的一种变体，具有以下基本特征：  延迟执行：延迟队列允许您将任务或消息设置为在一定的延迟时间之后执行。这个延迟可以是秒、分钟、小时甚至更长的时间。  调度：延迟队列会在设定的延迟时间到达时自动触发任务的执行，而不需要人工干预。这样可以实现定时执行任务的需求。  可靠性：一旦任">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://www.huangrd.top/images/agentina/9.jpg">
+<meta property="article:published_time" content="2023-09-24T13:12:57.000Z">
+<meta property="article:modified_time" content="2023-09-24T03:45:09.402Z">
+<meta property="article:author" content="Huang RD">
+<meta property="article:tag" content="Rabbit MQ">
+<meta property="article:tag" content="Redis">
+<meta property="article:tag" content="设计">
+<meta property="article:tag" content="架构">
+<meta property="article:tag" content="场景">
+<meta property="article:tag" content="MQ">
+<meta property="article:tag" content="Kafka">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://www.huangrd.top/images/agentina/9.jpg"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://www.haungrd.top/2023/09/24/%E5%BB%B6%E8%BF%9F%E9%98%9F%E5%88%97%E5%AE%9E%E7%8E%B0/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"简"},
+  noticeOutdate: {"limitDay":365,"position":"top","messagePrev":"It has been","messageNext":"days since the last update, the content of the article may be outdated."},
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":230},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: true,
+    post: true
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: {"chs_to_cht":"你已切换为繁体","cht_to_chs":"你已切换为简体","day_to_night":"你已切换为深色模式","night_to_day":"你已切换为浅色模式","bgLight":"#49b1f5","bgDark":"#1f1f1f","position":"top-right"},
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: true,
+  isAnchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '延迟队列如何实现',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2023-09-24 11:45:09'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', 'ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          const now = new Date()
+          const hour = now.getHours()
+          const isNight = hour <= 6 || hour >= 18
+          if (t === undefined) isNight ? activateDarkMode() : activateLightMode()
+          else if (t === 'light') activateLightMode()
+          else activateDarkMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 6.3.0"></head><body><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://getwallpapers.com/wallpaper/full/a/1/8/1057222-free-download-cool-nature-backgrounds-1920x1200-windows-10.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">63</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">84</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">19</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><span> 清单</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/Gallery/"><i class="fa-fw fas fa-images"></i><span> 照片</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://www.huangrd.top/images/agentina/9.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Huang Blog</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><span> 清单</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/Gallery/"><i class="fa-fw fas fa-images"></i><span> 照片</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">延迟队列如何实现</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-09-24T13:12:57.000Z" title="发表于 2023-09-24 21:12:57">2023-09-24</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-09-24T03:45:09.402Z" title="更新于 2023-09-24 11:45:09">2023-09-24</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E8%AE%BE%E8%AE%A1/">设计</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">2.3k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>8分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="延迟队列如何实现"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="延迟队列如何实现"><a href="#延迟队列如何实现" class="headerlink" title="延迟队列如何实现"></a>延迟队列如何实现</h1><h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>延迟队列是一种用于处理需要在未来某个特定时间点或时间间隔后执行的任务或事件的机制。它是消息队列或任务调度的一种变体，具有以下基本特征：</p>
+<ol>
+<li><p><strong>延迟执行</strong>：延迟队列允许您将任务或消息设置为在一定的延迟时间之后执行。这个延迟可以是秒、分钟、小时甚至更长的时间。</p>
+</li>
+<li><p><strong>调度</strong>：延迟队列会在设定的延迟时间到达时自动触发任务的执行，而不需要人工干预。这样可以实现定时执行任务的需求。</p>
+</li>
+<li><p><strong>可靠性</strong>：一旦任务进入延迟队列，它们应该能够在预定的时间点或时间间隔内被可靠地执行，即使在系统故障或重启后也能够保持可靠性。</p>
+</li>
+<li><p><strong>有序性</strong>：通常，延迟队列会维护任务的执行顺序，确保它们按照设定的延迟时间顺序执行。</p>
+</li>
+<li><p><strong>处理重试和失败</strong>：延迟队列通常具有处理任务失败和重试的机制，以确保任务最终能够成功执行。</p>
+</li>
+</ol>
+<p>延迟队列的应用场景非常广泛，包括但不限于：</p>
+<ul>
+<li><p><strong>任务调度</strong>：定时执行重复性任务，如定期生成报告或备份数据。</p>
+</li>
+<li><p><strong>通知和提醒</strong>：发送定时提醒通知，例如日程提醒、生日提醒等。</p>
+</li>
+<li><p><strong>订单处理</strong>：处理订单中的定时任务，如取消未付款订单。</p>
+</li>
+<li><p><strong>消息重试</strong>：延迟重新排队失败的消息以进行重试。</p>
+</li>
+<li><p><strong>数据清理</strong>：定期清理过期或无用的数据。</p>
+</li>
+</ul>
+<p>实现延迟队列的方式可以使用不同的技术和工具，如消息队列（例如 RabbitMQ、Kafka、ActiveMQ）、内存数据库（如Redis）或专门设计的延迟队列服务（如 Amazon SQS 的延迟队列功能）。</p>
+<p>总之，延迟队列是一个有用的工具，可以帮助应用程序和系统按时执行任务，管理定时事件，并提供可靠的任务调度功能。</p>
+<h2 id="Redis-实现"><a href="#Redis-实现" class="headerlink" title="Redis 实现"></a>Redis 实现</h2><p>利用 Redis 的有序集合的数据结构 ZSet，ZSet 中每个元素都有一个对应 Score，ZSet 中所有的元素都是按照其Score 进行排序的。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ZADD KEY timestamp task -- 入队操作</span><br></pre></td></tr></table></figure>
+
+<p>Redis 的 ZAdd 的时间复杂度是<code>O(logN)</code></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ZRANGEBYSCORE KEY -inf +inf <span class="built_in">limit</span> 0 1 WITHSCORES -- 查询 ZSet 中 Score 最小的元素</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>查询出的分数小于等于当前时间戳，说明到这个任务需要执行的时间了，则去异步处理该任务；</li>
+<li>查询出的分数大于当前时间戳，由于刚刚的查询操作取出来的是分数最小的元素，所以说明 ZSet 中所有的任务都还没有到需要执行的时间，则休眠一秒后继续查询；</li>
+</ul>
+<p>优秀的延迟队列架构：</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/../images/%E5%BB%B6%E8%BF%9F%E9%98%9F%E5%88%97%E5%AE%9E%E7%8E%B0/modb_20211027_8d744dbe-36fa-11ec-ac70-fa163eb4f6be.png" alt="img"></p>
+<p>设计思路：</p>
+<ol>
+<li>将延迟的消息任务通过 hash 算法路由至不同的 Redis Key 上，避免 Redis ZSet 存储较多的信息，查询和增加操作变慢，还有利于扩展，通过加一个 ZSet，在数据量大的时候完成扩展。</li>
+<li>每个 Redis Key 都对应建立一个处理进程，称为 Event 进程， ZRANGEBYSCORE 方法轮询 Key，查询是否有待处理的延迟消息。</li>
+<li>Event 进程只负责分发消息，具体的业务逻辑通过一个额外的消息队列异步处理。可以加快 Event 的处理速度，从而解决消息堆积问题。还可以让拓展性更好，只需要新增消费者即可。</li>
+<li>Event 进程采用 Zookeeper <code>CP模式</code> 选主单进程部署的方式，避免 Event 进程宕机后，Redis Key 中消息堆积的情况。一旦 Zookeeper 的 leader 主机宕机，Zookeeper 会自动选择新的 leader 主机来处理 Redis Key 中的消息。</li>
+</ol>
+<h2 id="Rabbit-MQ-实现延迟队列"><a href="#Rabbit-MQ-实现延迟队列" class="headerlink" title="Rabbit MQ 实现延迟队列"></a>Rabbit MQ 实现延迟队列</h2><p>使用 RabbitMQ 的死信队列 + TTL 来实现的延迟队列。并且在 RabbitMQ 的整体配置中，为了避免消息不丢失，不会重复消费等问题，我们将 RabbitMQ 设置为手动 ACK 模式，并且在确保 RabbitMQ 的消息可靠性，我们自定义了RabbitTemplate，将失败的信息记录到数据库，定时任务重发。</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/../images/%E5%BB%B6%E8%BF%9F%E9%98%9F%E5%88%97%E5%AE%9E%E7%8E%B0/202210191036225.png" alt="image-20221019103614158"></p>
+<h2 id="kafka实现延迟队列"><a href="#kafka实现延迟队列" class="headerlink" title="kafka实现延迟队列"></a>kafka实现延迟队列</h2><p>区别于 TimeWheel 时间轮和 Java 的 DelayQueue。这样在操作的时候还没有把消息放入 kafka，还要自己考虑如何持久化。</p>
+<p>KafkaConsumer 提供了暂停和恢复的 API 函数，调用消费者的暂停方法后就无法再拉取到新的消息，同时长时间不消费kafka 也不会认为这个消费者已经挂掉了。</p>
+<p>启动一个定时器来替换<code>sleep</code>。完整流程如下图，当消费者发现消息不满足条件时，我们就暂停消费者，并把偏移量seek到上一次消费的位置以便等待下一个周期再次消费这条消息。</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/../images/%E5%BB%B6%E8%BF%9F%E9%98%9F%E5%88%97%E5%AE%9E%E7%8E%B0/v2-2808abfe489ce657c6c966d53346aff0_r.jpg" alt="img"></p>
+<p>实现方式</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">DelayQueueTest</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> KafkaConsumer&lt;String, String&gt; consumer;</span><br><span class="line">    <span class="keyword">private</span> KafkaProducer&lt;String, String&gt; producer;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">volatile</span> <span class="type">Boolean</span> <span class="variable">exit</span> <span class="operator">=</span> <span class="literal">false</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="type">Object</span> <span class="variable">lock</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Object</span>();</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="type">String</span> <span class="variable">servers</span> <span class="operator">=</span> <span class="string">&quot;&quot;</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 初始化消费者</span></span><br><span class="line">    <span class="meta">@BeforeEach</span></span><br><span class="line">    <span class="keyword">void</span> <span class="title function_">initConsumer</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="type">Properties</span> <span class="variable">props</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Properties</span>();</span><br><span class="line">        props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, servers);</span><br><span class="line">        props.put(ConsumerConfig.GROUP_ID_CONFIG, <span class="string">&quot;d&quot;</span>);</span><br><span class="line">        props.put(ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG, <span class="string">&quot;false&quot;</span>);</span><br><span class="line">        props.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, <span class="string">&quot;earliest&quot;</span>);</span><br><span class="line">        props.put(ConsumerConfig.ISOLATION_LEVEL_CONFIG, <span class="string">&quot;read_committed&quot;</span>);</span><br><span class="line">        props.put(ConsumerConfig.MAX_POLL_INTERVAL_MS_CONFIG, <span class="string">&quot;5000&quot;</span>);</span><br><span class="line">        consumer = <span class="keyword">new</span> <span class="title class_">KafkaConsumer</span>&lt;&gt;(props, <span class="keyword">new</span> <span class="title class_">StringDeserializer</span>(), <span class="keyword">new</span> <span class="title class_">StringDeserializer</span>());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 初始化生产者</span></span><br><span class="line">    <span class="meta">@BeforeEach</span></span><br><span class="line">    <span class="keyword">void</span> <span class="title function_">initProducer</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="type">Properties</span> <span class="variable">props</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Properties</span>();</span><br><span class="line">        props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, servers);</span><br><span class="line">        props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());</span><br><span class="line">        props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());</span><br><span class="line">        producer = <span class="keyword">new</span> <span class="title class_">KafkaProducer</span>&lt;&gt;(props);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 测试延迟队列</span></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="keyword">void</span> <span class="title function_">testDelayQueue</span><span class="params">()</span> <span class="keyword">throws</span> JsonProcessingException, InterruptedException &#123;</span><br><span class="line">        <span class="type">String</span> <span class="variable">topic</span> <span class="operator">=</span> <span class="string">&quot;delay-minutes-1&quot;</span>;</span><br><span class="line">        List&lt;String&gt; topics = Collections.singletonList(topic);</span><br><span class="line">        consumer.subscribe(topics);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 定义时间器</span></span><br><span class="line">        <span class="type">Timer</span> <span class="variable">timer</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Timer</span>();</span><br><span class="line">        timer.schedule(<span class="keyword">new</span> <span class="title class_">TimerTask</span>() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">run</span><span class="params">()</span> &#123;</span><br><span class="line">                <span class="keyword">synchronized</span> (lock) &#123;</span><br><span class="line">                    <span class="comment">// 暂停API执行</span></span><br><span class="line">                    consumer.resume(consumer.paused());</span><br><span class="line">                    lock.notify();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;, <span class="number">0</span>, <span class="number">1000</span>);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">do</span> &#123;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">synchronized</span> (lock) &#123;</span><br><span class="line">                ConsumerRecords&lt;String, String&gt; consumerRecords = consumer.poll(Duration.ofMillis(<span class="number">200</span>));</span><br><span class="line"></span><br><span class="line">                <span class="keyword">if</span> (consumerRecords.isEmpty()) &#123;</span><br><span class="line">                    lock.wait();</span><br><span class="line">                    <span class="keyword">continue</span>;</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                <span class="type">boolean</span> <span class="variable">timed</span> <span class="operator">=</span> <span class="literal">false</span>;</span><br><span class="line">                <span class="keyword">for</span> (ConsumerRecord&lt;String, String&gt; consumerRecord : consumerRecords) &#123;</span><br><span class="line">                    <span class="type">long</span> <span class="variable">timestamp</span> <span class="operator">=</span> consumerRecord.timestamp();</span><br><span class="line">                    <span class="type">TopicPartition</span> <span class="variable">topicPartition</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">TopicPartition</span>(consumerRecord.topic(), consumerRecord.partition());</span><br><span class="line">                    <span class="keyword">if</span> (timestamp + <span class="number">60</span> * <span class="number">1000</span> &lt; System.currentTimeMillis()) &#123;</span><br><span class="line"></span><br><span class="line">                        <span class="type">String</span> <span class="variable">value</span> <span class="operator">=</span> consumerRecord.value();</span><br><span class="line">                        <span class="type">ObjectMapper</span> <span class="variable">objectMapper</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ObjectMapper</span>();</span><br><span class="line">                        <span class="type">JsonNode</span> <span class="variable">jsonNode</span> <span class="operator">=</span> objectMapper.readTree(value);</span><br><span class="line">                        <span class="type">JsonNode</span> <span class="variable">jsonNodeTopic</span> <span class="operator">=</span> jsonNode.get(<span class="string">&quot;topic&quot;</span>);</span><br><span class="line"></span><br><span class="line">                        <span class="type">String</span> <span class="variable">appTopic</span> <span class="operator">=</span> <span class="literal">null</span>, appKey = <span class="literal">null</span>, appValue = <span class="literal">null</span>;</span><br><span class="line"></span><br><span class="line">                        <span class="keyword">if</span> (jsonNodeTopic != <span class="literal">null</span>) &#123;</span><br><span class="line">                            appTopic = jsonNodeTopic.asText();</span><br><span class="line">                        &#125;</span><br><span class="line">                        <span class="keyword">if</span> (appTopic == <span class="literal">null</span>) &#123;</span><br><span class="line">                            <span class="keyword">continue</span>;</span><br><span class="line">                        &#125;</span><br><span class="line">                        <span class="type">JsonNode</span> <span class="variable">jsonNodeKey</span> <span class="operator">=</span> jsonNode.get(<span class="string">&quot;key&quot;</span>);</span><br><span class="line">                        <span class="keyword">if</span> (jsonNodeKey != <span class="literal">null</span>) &#123;</span><br><span class="line">                            appKey = jsonNode.asText();</span><br><span class="line">                        &#125;</span><br><span class="line"></span><br><span class="line">                        <span class="type">JsonNode</span> <span class="variable">jsonNodeValue</span> <span class="operator">=</span> jsonNode.get(<span class="string">&quot;value&quot;</span>);</span><br><span class="line">                        <span class="keyword">if</span> (jsonNodeValue != <span class="literal">null</span>) &#123;</span><br><span class="line">                            appValue = jsonNodeValue.asText();</span><br><span class="line">                        &#125;</span><br><span class="line">                        <span class="comment">// send to application topic</span></span><br><span class="line">                        ProducerRecord&lt;String, String&gt; producerRecord = <span class="keyword">new</span> <span class="title class_">ProducerRecord</span>&lt;&gt;(appTopic, appKey, appValue);</span><br><span class="line">                        <span class="keyword">try</span> &#123;</span><br><span class="line">                            producer.send(producerRecord).get();</span><br><span class="line">                            <span class="comment">// success. commit message</span></span><br><span class="line">                            <span class="type">OffsetAndMetadata</span> <span class="variable">offsetAndMetadata</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">OffsetAndMetadata</span>(consumerRecord.offset() + <span class="number">1</span>);</span><br><span class="line">                            HashMap&lt;TopicPartition, OffsetAndMetadata&gt; metadataHashMap = <span class="keyword">new</span> <span class="title class_">HashMap</span>&lt;&gt;();</span><br><span class="line">                            metadataHashMap.put(topicPartition, offsetAndMetadata);</span><br><span class="line">                            consumer.commitSync(metadataHashMap);</span><br><span class="line">                        &#125; <span class="keyword">catch</span> (ExecutionException e) &#123;</span><br><span class="line">                            consumer.pause(Collections.singletonList(topicPartition));</span><br><span class="line">                            consumer.seek(topicPartition, consumerRecord.offset());</span><br><span class="line">                            timed = <span class="literal">true</span>;</span><br><span class="line">                            <span class="keyword">break</span>;</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                        consumer.pause(Collections.singletonList(topicPartition));</span><br><span class="line">                        consumer.seek(topicPartition, consumerRecord.offset());</span><br><span class="line">                        timed = <span class="literal">true</span>;</span><br><span class="line">                        <span class="keyword">break</span>;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                <span class="keyword">if</span> (timed) &#123;</span><br><span class="line">                    lock.wait();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">while</span> (!exit);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="比较"><a href="#比较" class="headerlink" title="比较"></a>比较</h2><p><strong>Redis</strong>:</p>
+<p>优点：</p>
+<ol>
+<li><strong>简单性和速度</strong>：Redis 是一个内存数据库，非常快速，适合处理延迟较低的任务。它的单线程特性确保了任务的顺序执行。</li>
+<li><strong>灵活性</strong>：您可以使用 Redis 的 TTL（生存时间）来设置任务的延迟，以及使用 Lua 脚本来处理更复杂的逻辑。</li>
+</ol>
+<p>缺点：</p>
+<ol>
+<li><strong>持久性</strong>：Redis 默认情况下将数据存储在内存中，如果节点宕机，数据可能会丢失。虽然可以通过将数据持久化到磁盘来解决这个问题，但这会影响性能。</li>
+<li><strong>可扩展性</strong>：Redis 的可扩展性有一定限制，当数据量变大时，需要更多的内存。这可能会导致成本上升。</li>
+</ol>
+<p><strong>Rabbit MQ</strong>:</p>
+<p>优点：</p>
+<ol>
+<li><strong>可靠性</strong>：RabbitMQ 是一个持久化消息代理，确保消息在宕机后不会丢失。它使用消息确认机制来确保消息被消费。</li>
+<li><strong>灵活性</strong>：RabbitMQ 支持多种消息传递模式，包括延迟队列。您可以使用插件（如 RabbitMQ Delayed Message Exchange 插件）来实现延迟队列功能。</li>
+<li><strong>分布式</strong>：RabbitMQ 可以轻松进行水平扩展，以处理大量的消息和高并发。</li>
+</ol>
+<p>缺点：</p>
+<ol>
+<li><strong>复杂性</strong>：相对于 Redis，RabbitMQ 的配置和管理可能更复杂。</li>
+<li><strong>性能</strong>：尽管 RabbitMQ 可以处理高并发，但在某些情况下，它的性能可能低于 Redis，特别是在处理大量瞬时消息时，也低于 kafka。</li>
+</ol>
+<p><strong>kafka</strong>：</p>
+<p>优点：</p>
+<ol>
+<li><strong>持久性</strong>：Kafka 是一个高度可持久化的分布式消息系统，消息被保存在磁盘上，不会丢失。</li>
+<li><strong>分布式</strong>：Kafka 具有强大的分布式能力，可以处理大规模数据和高吞吐量。</li>
+<li><strong>事件日志</strong>：Kafka 可以用作事件日志，允许您以事件驱动的方式处理延迟任务。</li>
+</ol>
+<p>缺点：</p>
+<ol>
+<li><strong>复杂性</strong>：与 RabbitMQ 一样，Kafka 的配置和管理也相对复杂。kafka 自己并不支持延迟队列，需要其他手段来完成，难度比 Rabbit MQ 大。</li>
+<li><strong>延迟</strong>：Kafka 通常不是一个实时系统，消息可能会在一段时间后被处理，这不适用于所有延迟队列的用例。</li>
+</ol>
+<p><strong>参考</strong></p>
+<blockquote>
+<ul>
+<li>ChatGPT：<a target="_blank" rel="noopener" href="https://chat.openai.com/">https://chat.openai.com</a></li>
+<li>知乎-整点bug： <a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/365802989">https://zhuanlan.zhihu.com/p/365802989</a></li>
+<li>摩天轮-努力努力再努力xLg：<a target="_blank" rel="noopener" href="https://www.modb.pro/db/148919">https://www.modb.pro/db/148919</a></li>
+</ul>
+</blockquote>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="http://www.haungrd.top">Huang RD</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://www.haungrd.top/2023/09/24/%E5%BB%B6%E8%BF%9F%E9%98%9F%E5%88%97%E5%AE%9E%E7%8E%B0/">http://www.haungrd.top/2023/09/24/%E5%BB%B6%E8%BF%9F%E9%98%9F%E5%88%97%E5%AE%9E%E7%8E%B0/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://www.haungrd.top" target="_blank">Huang Blog</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Rabbit-MQ/">Rabbit MQ</a><a class="post-meta__tags" href="/tags/Redis/">Redis</a><a class="post-meta__tags" href="/tags/%E8%AE%BE%E8%AE%A1/">设计</a><a class="post-meta__tags" href="/tags/%E6%9E%B6%E6%9E%84/">架构</a><a class="post-meta__tags" href="/tags/%E5%9C%BA%E6%99%AF/">场景</a><a class="post-meta__tags" href="/tags/MQ/">MQ</a><a class="post-meta__tags" href="/tags/Kafka/">Kafka</a></div><div class="post_share"><div class="social-share" data-image="https://www.huangrd.top/images/agentina/9.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2023/09/24/%E4%B8%AD%E9%97%B4%E4%BB%B6%E7%9A%84%E5%BC%80%E5%8F%91/"><img class="prev-cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://www.huangrd.top/images/agentina/13.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">中间件的开发</div></div></a></div><div class="next-post pull-right"><a href="/2023/09/24/%E8%AE%BE%E8%AE%A1%E4%B8%80%E4%B8%AA%E7%A7%92%E6%9D%80%E5%9C%BA%E6%99%AF/"><img class="next-cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://www.huangrd.top/images/agentina/7.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">设计一个秒杀场景</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2023/09/24/%E4%B8%AD%E9%97%B4%E4%BB%B6%E7%9A%84%E5%BC%80%E5%8F%91/" title="中间件的开发"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://www.huangrd.top/images/agentina/13.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-09-24</div><div class="title">中间件的开发</div></div></a></div><div><a href="/2023/09/24/%E8%AE%BE%E8%AE%A1%E4%B8%80%E4%B8%AA%E7%A7%92%E6%9D%80%E5%9C%BA%E6%99%AF/" title="设计一个秒杀场景"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://www.huangrd.top/images/agentina/7.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-09-24</div><div class="title">设计一个秒杀场景</div></div></a></div><div><a href="/2023/09/21/%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/" title="分布式事务的解决方案"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://www.huangrd.top/images/agentina/11.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-09-21</div><div class="title">分布式事务的解决方案</div></div></a></div><div><a href="/2023/02/27/%E9%9D%A2%E8%AF%95%E9%A2%98%E6%95%B4%E7%90%86/" title="面试题整理"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://www.huangrd.top/images/agentina/12.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-02-27</div><div class="title">面试题整理</div></div></a></div><div><a href="/2023/02/10/%E7%89%9B%E5%AE%A2%E9%A1%B9%E7%9B%AE/" title="牛客论坛"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://www.huangrd.top/images/agentina/12.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-02-10</div><div class="title">牛客论坛</div></div></a></div><div><a href="/2023/03/03/RabbitMQ%E5%A4%8D%E4%B9%A0%E6%8F%90%E5%8D%87/" title="Rabbit MQ复习提升"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://www.huangrd.top/images/agentina/2.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-03-03</div><div class="title">Rabbit MQ复习提升</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content is-expand"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%BB%B6%E8%BF%9F%E9%98%9F%E5%88%97%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0"><span class="toc-text">延迟队列如何实现</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A6%82%E8%BF%B0"><span class="toc-text">概述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Redis-%E5%AE%9E%E7%8E%B0"><span class="toc-text">Redis 实现</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Rabbit-MQ-%E5%AE%9E%E7%8E%B0%E5%BB%B6%E8%BF%9F%E9%98%9F%E5%88%97"><span class="toc-text">Rabbit MQ 实现延迟队列</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#kafka%E5%AE%9E%E7%8E%B0%E5%BB%B6%E8%BF%9F%E9%98%9F%E5%88%97"><span class="toc-text">kafka实现延迟队列</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%AF%94%E8%BE%83"><span class="toc-text">比较</span></a></li></ol></li></ol></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2022 - 2023 By Huang RD</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="translateLink" type="button" title="简繁转换">简</button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div></div></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page/instantpage.min.js" type="module"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload/dist/lazyload.iife.min.js"></script><script src="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.js"></script><script>function panguFn () {
+  if (typeof pangu === 'object') pangu.autoSpacingPage()
+  else {
+    getScript('https://cdn.jsdelivr.net/npm/pangu/dist/browser/pangu.min.js')
+      .then(() => {
+        pangu.autoSpacingPage()
+      })
+  }
+}
+
+function panguInit () {
+  if (false){
+    GLOBAL_CONFIG_SITE.isPost && panguFn()
+  } else {
+    panguFn()
+  }
+}
+
+document.addEventListener('DOMContentLoaded', panguInit)</script><script src="/js/search/local-search.js"></script><div class="js-pjax"></div><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="30" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/canvas-nest.min.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
